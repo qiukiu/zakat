@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form Zakat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        form {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
+
+        .toggle-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .toggle-button,
+        .payment-button {
+            padding: 10px;
+            border: 1px solid #aaa;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-button.active,
+        .payment-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .donation-section {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 15px;
+        }
+
+        #summarySection {
+            border: 2px solid #4CAF50;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #submitSection {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Form Zakat</h1>
+    <form id="donationForm" enctype="multipart/form-data">
+        <!-- Informasi Kontak -->
+        <section id="personalInfo">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="asalKota">Asal Kota:</label>
+            <input type="text" id="asalKota" name="asalKota" required>
+        </section>
+
+        <!-- Pilih Jenis Donasi -->
+        <section id="donationTypeSelection">
+            <h2>Pilih Jenis Donasi</h2>
+            <div class="toggle-buttons">
+                <button type="button" class="toggle-button" data-type="fitrah">Zakat Fitrah</button>
+                <button type="button" class="toggle-button" data-type="maal">Zakat Maal</button>
+                <button type="button" class="toggle-button" data-type="fidyah">Fidyah</button>
+                <button type="button" class="toggle-button" data-type="infak">Infak</button>
+            </div>
+        </section>
+
+        <!-- Zakat Fitrah Section -->
+        <section id="section-fitrah" class="donation-section" style="display:none;">
+            <h3>Zakat Fitrah</h3>
+            <label for="jumlahJiwa">Jumlah Jiwa:</label>
+            <input type="number" id="jumlahJiwa" name="jumlahJiwa" min="1">
+            <p>Harga: 10€ per jiwa (tetap)</p>
+            <div id="fitrahNames"></div>
+        </section>
+
+        <!-- Zakat Maal Section -->
+        <section id="section-maal" class="donation-section" style="display:none;">
+            <h3>Zakat Maal</h3>
+            <label for="namaMaal">Nama:</label>
+            <input type="text" id="namaMaal" name="namaMaal">
+            <label for="jumlahMaal">Jumlah Zakat Maal:</label>
+            <input type="number" id="jumlahMaal" name="jumlahMaal" min="0">
+        </section>
+
+        <!-- Fidyah Section -->
+        <section id="section-fidyah" class="donation-section" style="display:none;">
+            <h3>Fidyah</h3>
+            <label for="namaFidyah">Nama:</label>
+            <input type="text" id="namaFidyah" name="namaFidyah">
+            <label for="jumlahHari">Jumlah Hari:</label>
+            <input type="number" id="jumlahHari" name="jumlahHari" min="0">
+            <p>Harga: 3€ per hari (tetap)</p>
+        </section>
+
+        <!-- Infak Section -->
+        <section id="section-infak" class="donation-section" style="display:none;">
+            <h3>Infak</h3>
+            <label for="namaInfak">Nama:</label>
+            <input type="text" id="namaInfak" name="namaInfak">
+            <label for="jumlahInfak">Jumlah Infak:</label>
+            <input type="number" id="jumlahInfak" name="jumlahInfak" min="0">
+        </section>
+
+        <!-- Ringkasan Donasi -->
+        <section id="summarySection">
+            <h2>Ringkasan Donasi</h2>
+            <p id="summaryText">Total: 0€</p>
+        </section>
+
+        <!-- Pilihan Metode Pembayaran -->
+        <section id="paymentOptions">
+            <h2>Pilih Metode Pembayaran</h2>
+            <div class="toggle-buttons">
+                <button type="button" class="payment-button" data-method="IBAN transfer">IBAN Transfer</button>
+                <button type="button" class="payment-button" data-method="Paypal friends and familly">Paypal Friends and Familly</button>
+                <button type="button" class="payment-button" data-method="Cash">Cash</button>
+            </div>
+            <!-- Bagian untuk mengunggah bukti atau konfirmasi kehadiran -->
+            <div id="paymentEvidenceSection" style="margin-top:10px;"></div>
+        </section>
+
+        <!-- Instruksi dan Acknowledgement -->
+        <section id="instructionSection">
+            <h2>Instruksi</h2>
+            <p>Silakan baca instruksi pembayaran sesuai dengan metode yang dipilih. Pastikan Anda telah membaca dan
+                memahami instruksi tersebut sebelum mengirimkan formulir.</p>
+            <input type="checkbox" id="acknowledge" name="acknowledge" required>
+            <label for="acknowledge">Saya telah membaca dan memahami instruksi di atas.</label>
+        </section>
+
+        <!-- Tombol Submit -->
+        <section id="submitSection">
+            <button type="submit">Submit</button>
+        </section>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+      // Toggle pemilihan jenis donasi
+      const toggleButtons = document.querySelectorAll('.toggle-button');
+      toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const type = this.getAttribute('data-type');
+          this.classList.toggle('active');
+          const section = document.getElementById('section-' + type);
+          section.style.display = this.classList.contains('active') ? 'block' : 'none';
+          updateSummary();
+        });
+      });
+      
+      // Dinamis: generate field Nama Lengkap untuk Zakat Fitrah berdasarkan Jumlah Jiwa
+      document.getElementById('jumlahJiwa').addEventListener('change', function() {
+        const count = parseInt(this.value) || 0;
+        const container = document.getElementById('fitrahNames');
+        container.innerHTML = ''; // kosongkan field sebelumnya
+        for (let i = 1; i <= count; i++) {
+          const label = document.createElement('label');
+          label.textContent = 'Nama Lengkap ' + i + ':';
+          label.setAttribute('for', 'namaFitrah_' + i);
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.id = 'namaFitrah_' + i;
+          input.name = 'namaFitrah_' + i;
+          input.required = true;
+          container.appendChild(label);
+          container.appendChild(input);
+        }
+        updateSummary();
+      });
+      
+      // Perbarui ringkasan donasi setiap ada perubahan input
+      const inputs = document.querySelectorAll('#donationForm input');
+      inputs.forEach(input => {
+        input.addEventListener('input', updateSummary);
+      });
+      
+      // Pilihan metode pembayaran dan tampilkan form bukti pembayaran/kotak cek
+      const paymentButtons = document.querySelectorAll('.payment-button');
+      const paymentEvidenceSection = document.getElementById('paymentEvidenceSection');
+      
+      paymentButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          paymentButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          updatePaymentEvidence(this.getAttribute('data-method'));
+        });
+      });
+      
+      function updatePaymentEvidence(method) {
+        let html = '';
+        if (method === 'IBAN transfer' || method === 'Paypal friends and familly') {
+          // Tampilkan input file untuk upload screenshot (gambar)
+          html = `<label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
+                  <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>`;
+        } else if (method === 'Cash') {
+          // Tampilkan checkbox konfirmasi kehadiran secara langsung
+          html = `<input type="checkbox" id="cashConfirmation" name="cashConfirmation" value="ya" required>
+                  <label for="cashConfirmation">Saya akan hadir secara langsung untuk pembayaran tunai.</label>`;
+        }
+        paymentEvidenceSection.innerHTML = html;
+      }
+      
+      function updateSummary() {
+        let total = 0;
+        // Zakat Fitrah: jumlah jiwa x 10€
+        if(document.querySelector('.toggle-button[data-type="fitrah"]').classList.contains('active')) {
+          const jumlahJiwa = parseInt(document.getElementById('jumlahJiwa').value) || 0;
+          total += jumlahJiwa * 10;
+        }
+        // Zakat Maal: jumlah yang diinput
+        if(document.querySelector('.toggle-button[data-type="maal"]').classList.contains('active')) {
+          const jumlahMaal = parseFloat(document.getElementById('jumlahMaal').value) || 0;
+          total += jumlahMaal;
+        }
+        // Fidyah: jumlah hari x 3€
+        if(document.querySelector('.toggle-button[data-type="fidyah"]').classList.contains('active')) {
+          const jumlahHari = parseInt(document.getElementById('jumlahHari').value) || 0;
+          total += jumlahHari * 3;
+        }
+        // Infak: jumlah yang diinput
+        if(document.querySelector('.toggle-button[data-type="infak"]').classList.contains('active')) {
+          const jumlahInfak = parseFloat(document.getElementById('jumlahInfak').value) || 0;
+          total += jumlahInfak;
+        }
+        document.getElementById('summaryText').textContent = 'Total: ' + total + '€';
+      }
+      
+      // Pengiriman data ke Google Sheets melalui Google Apps Script
+      document.getElementById('donationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        // Ambil metode pembayaran yang aktif
+        let paymentMethod = '';
+        paymentButtons.forEach(btn => {
+          if(btn.classList.contains('active')) {
+            paymentMethod = btn.getAttribute('data-method');
+          }
+        });
+        formData.append('paymentMethod', paymentMethod);
+        
+        fetch('https://script.google.com/macros/s/AKfycbxhgIGiFAIGD_lVruQYCSONnxEJT5iD2O2ZIP-83IeDQP13yjfF_nKGhxwZ27gGLLOP/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+          alert('Data terkirim: ' + result);
+          // Reset form dan sembunyikan section dinamis
+          document.getElementById('donationForm').reset();
+          document.querySelectorAll('.donation-section').forEach(section => section.style.display = 'none');
+          toggleButtons.forEach(btn => btn.classList.remove('active'));
+          paymentButtons.forEach(btn => btn.classList.remove('active'));
+          paymentEvidenceSection.innerHTML = '';
+          updateSummary();
+        })
+        .catch(error => {
+          alert('Terjadi kesalahan: ' + error.message);
+        });
+      });
+    });
+    </script>
+</body>
+
+</html>
