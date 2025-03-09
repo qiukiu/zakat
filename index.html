@@ -9,12 +9,29 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-       
 
-        h1 {
-            color: #333;
-            text-align: center;
+        /* CSS baru untuk header */
+        .header-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          border-bottom: 2px solid #ccc;
+          padding-bottom: 10px;
         }
+        
+        .header-container h1 {
+          margin: 0;
+          flex-grow: 1;
+          text-align: center;
+          font-size: 2em;
+          color: #333;
+        }
+        .logo {
+          max-height: 80px;
+          width: auto;
+        }
+        
         h2,
         h3 {
             color: #333;
@@ -89,11 +106,18 @@
             cursor: pointer;
             font-size: 16px;
         }
+
     </style>
 </head>
 
 <body>
-    <h1>Form Zakat KMIB 1446H / 2025</h1>
+        <!-- Bagian baru: Header dengan dua logo dan judul di tengah -->
+    <div class="header-container">
+      <img src="Logokmib.png" alt="KMIB" class="logo">  <!-- Logo kiri -->
+      <h1>Form Zakat KMIB 1446H / 2025</h1>                                   <!-- Judul di tengah -->
+      <img src="Logoppa.png" alt="ppa" class="logo">  <!-- Logo kanan -->
+    </div>
+
     <form id="donationForm" enctype="multipart/form-data">
         <!-- Informasi Kontak -->
         <section id="personalInfo">
