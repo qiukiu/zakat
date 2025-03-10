@@ -67,6 +67,7 @@
         .toggle-button,
         .payment-button {
             padding: 25px;
+            font-size: 1.2em;
             border: 1px solid #aaa;
             background-color: #f5f5f5;
             cursor: pointer;
@@ -104,8 +105,24 @@
             color: white;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.2em;
         }
+
+        .collage-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 10px;
+          margin-top: 10px;
+        }
+
+        .collage-grid img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          border: 1px solid #ccc;
+          padding: 3px;
+        }
+
 
     </style>
 </head>
@@ -117,6 +134,13 @@
       <h1>Form Zakat KMIB 1446H / 2025</h1>                                   <!-- Judul di tengah -->
       <img src="Logoppa.png" alt="ppa" class="logo">  <!-- Logo kanan -->
     </div>
+
+    <!-- Galeri Acak dari Google Drive -->
+    <section id="randomGallery">
+      <h2>Dokumentasi Zakat Fitrah 1445H / 2024 </h2>
+      <div id="randomImages" class="collage-grid"></div>
+    </section>
+
 
     <form id="donationForm" enctype="multipart/form-data">
         <!-- Informasi Kontak -->
@@ -355,6 +379,24 @@
       });
     });
     </script>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('https://script.google.com/macros/s/AKfycbzgtKRONrjnPM9VOHrEITRPLnO7d2qqIoIQS71GBF8DZlqeRJkYubK8KSt9rAlmLdz5/exec')
+      .then(response => response.json())
+      .then(data => {
+        var container = document.getElementById('randomImages');
+        data.forEach(function(image) {
+          var img = document.createElement('img');
+          img.src = image.url;
+          img.alt = "Random Image";
+          container.appendChild(img);
+        });
+      })
+      .catch(error => console.error('Error fetching images:', error));
+  });
+</script>
+
 </body>
 
 </html>
