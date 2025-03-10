@@ -147,7 +147,9 @@
             <p>Zakat Fitrah: 10€ per jiwa (tetap)</p>
             <div id="fitrahNames"></div>
             <img src="Niat Zakat Fitrah.png">
-            <p>Nawaytu An Ukhrija Zakaata Al-fitri Anni Wa An Jami’i Ma Yalzimuniy Nafaqatuhum Syar’an Fardhan Lillahi Ta’ala</p>
+            <p>Nawaytu An Ukhrija Zakaata Al-fitri Anni (Wa An Jami’i Ma Yalzimuniy Nafaqatuhum Syar’an) Fardhan Lillahi Ta’ala</p>
+            <input type="checkbox" id="niat" name="niat" required>
+            <label for="niat">Saya telah membaca niat.</label>
         </section>
 
         <!-- Zakat Maal Section -->
@@ -265,9 +267,14 @@
       
       function updatePaymentEvidence(method) {
         let html = '';
-        if (method === 'IBAN transfer' || method === 'Paypal friends and familly') {
+        if (method === 'IBAN transfer') {
           // Tampilkan input file untuk upload screenshot (gambar)
-          html = `<label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
+          html = `<p> KMIB e.V. IBAN: DE66 2919 0024 0049 9595 00</p>
+                  <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
+                  <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>`;
+        } else if (method === 'Paypal friends and familly') {
+          html = `<p>paypal@kmibremen.de</p>
+                  <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
                   <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>`;
         } else if (method === 'Cash') {
           // Tampilkan checkbox konfirmasi kehadiran secara langsung
