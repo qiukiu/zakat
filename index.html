@@ -255,14 +255,6 @@
             </div>
             <!-- Bagian untuk mengunggah bukti atau konfirmasi kehadiran -->
             <div id="paymentEvidenceSection" style="margin-top:10px;"></div>
-
-            <div class="form-group">
-                  <label for="ibanField">Nomor IBAN:</label>
-                      <div class="input-group">
-                        <input type="text" id="ibanField" value="DE66291900240049959500" readonly class="form-control">
-                        <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
-                      </div>
-            </div>
         </section>
 
         <!-- Instruksi dan Acknowledgement -->
@@ -337,50 +329,22 @@
       
       function updatePaymentEvidence(method) {
         let html = '';
-        if (method === 'IBAN transfer') {
-          // Tampilkan input file untuk upload screenshot (gambar)
-          html = `
-                  <p> KMIB e.V. IBAN: DE66 2919 0024 0049 9595 00</p>
-                  <div class="form-group">
-                  <label for="ibanField">Nomor IBAN:</label>
-                      <div class="input-group">
-                        <input type="text" id="ibanField" value="DE66291900240049959500" readonly class="form-control">
-                        <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
-                      </div>
-                    </div>
-                  <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
-                  <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
-                  <script> 
-                     document.getElementById('copyIbanButton').addEventListener('click', function() {
-                      const ibanText = document.getElementById('ibanField').value;
-                      if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(ibanText)
-                          .then(() => alert("IBAN berhasil disalin!"))
-                          .catch(err => {
-                            console.error("Clipboard error:", err);
-                            copyTextFallback(ibanText);
-                          });
-                      } else {
-                        copyTextFallback(ibanText);
-                      }
-                    });
-
-                    function copyTextFallback(text) {
-                      const textarea = document.createElement('textarea');
-                      textarea.value = text;
-                      document.body.appendChild(textarea);
-                      textarea.select();
-                      try {
-                        document.execCommand('copy');
-                        alert("IBAN berhasil disalin!");
-                      } catch (err) {
-                        alert("Gagal menyalin IBAN: " + err);
-                      }
-                      document.body.removeChild(textarea);
-                    } 
-                  </script
-                  `;
-        } else if (method === 'Paypal friends and familly') {
+if (method === 'IBAN transfer') {
+  html = `
+    <div class="iban-section">
+      <p>KMIB e.V. IBAN:</p>
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" id="ibanField" value="DE66291900240049959500" readonly class="form-control">
+          <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
+        </div>
+      </div>
+      <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
+      <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
+    </div>
+  `;
+}
+ else if (method === 'Paypal friends and familly') {
           html = `<p>paypal@kmibremen.de</p>
                     <a href="mailto:paypal@kmibremen.de">paypal@kmibremen.de</a>
                   <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
@@ -468,37 +432,57 @@
         });
       })
       .catch(error => console.error('Error fetching images:', error));
-  });
-
-        document.getElementById('copyIbanButton').addEventListener('click', function() {
-  const ibanText = document.getElementById('ibanField').value;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(ibanText)
-      .then(() => alert("IBAN berhasil disalin!"))
-      .catch(err => {
-        console.error("Clipboard error:", err);
-        copyTextFallback(ibanText);
       });
-  } else {
-    copyTextFallback(ibanText);
-  }
-});
-
-function copyTextFallback(text) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-    alert("IBAN berhasil disalin!");
-  } catch (err) {
-    alert("Gagal menyalin IBAN: " + err);
-  }
-  document.body.removeChild(textarea);
-}
-
         
+        if (method === 'IBAN transfer') {
+          document.getElementById('copyIbanButton').addEventListener('click', function() {
+            const text = document.getElementById('ibanField').value;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text)
+                .then(() => alert("IBAN berhasil disalin!"))
+                .catch(err => {
+                  console.error("Clipboard error:", err);
+                  fallbackCopyText(text);
+                });
+            } else {
+              fallbackCopyText(text);
+            }
+          });
+        }
+
+        function fallbackCopyText(text) {
+          var textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.style.position = "fixed";
+          textarea.style.top = 0;
+          textarea.style.left = 0;
+          textarea.style.width = "2em";
+          textarea.style.height = "2em";
+          textarea.style.padding = 0;
+          textarea.style.border = "none";
+          textarea.style.outline = "none";
+          textarea.style.boxShadow = "none";
+          textarea.style.background = "transparent";
+  
+          document.body.appendChild(textarea);
+          textarea.focus();
+          textarea.select();
+  
+          try {
+            var successful = document.execCommand('copy');
+            if(successful) {
+              alert("IBAN berhasil disalin (fallback)!");
+            } else {
+              alert("Gagal menyalin IBAN.");
+            }
+          } catch (err) {
+            alert("Gagal menyalin IBAN: " + err);
+          }
+  
+          document.body.removeChild(textarea);
+        }
+
+
 </script>
 
 </body>
