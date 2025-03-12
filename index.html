@@ -306,14 +306,16 @@
         if (method === 'IBAN transfer') {
           // Tampilkan input file untuk upload screenshot (gambar)
           html = `<p> KMIB e.V. IBAN: DE66 2919 0024 0049 9595 00</p>
-                  <div id="copyTextContainer">
-                      <input type="text" id="textToCopy" value="DE66 2919 0024 0049 9595 00" readonly>
-                      <button id="copyButton">Salin Teks</button>
+                  <div>
+                    <label for="ibanText">IBAN:</label>
+                    <input type="text" id="ibanText" value="DE66291900240049959500" readonly>
+                    <button type="button" id="copyIbanButton">Salin IBAN</button>
                     </div>
                   <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
                   <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>`;
         } else if (method === 'Paypal friends and familly') {
           html = `<p>paypal@kmibremen.de</p>
+                    <a href="paypal@kmibremen.de">paypal@kmibremen.de</a>
                   <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
                   <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>`;
         } else if (method === 'Cash') {
@@ -401,13 +403,15 @@
       .catch(error => console.error('Error fetching images:', error));
   });
 
-document.getElementById('copyButton').addEventListener('click', function() {
-    const textField = document.getElementById('textToCopy');
-    navigator.clipboard.writeText(textField.value)
-      .then(() => alert("Teks telah disalin ke clipboard!"))
-      .catch(err => alert("Gagal menyalin teks: " + err));
+// Add copy functionality for IBAN
+if (method === 'IBAN transfer') {
+  document.getElementById('copyIbanButton').addEventListener('click', function() {
+    const text = document.getElementById('ibanText').value;
+    navigator.clipboard.writeText(text)
+      .then(() => alert("IBAN telah disalin!"))
+      .catch(err => alert("Gagal menyalin IBAN: " + err));
   });
-
+}
         
 </script>
 
