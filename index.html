@@ -110,18 +110,24 @@
 
         .collage-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          grid-template-columns: repeat(2, 1fr); /* Two columns */
           gap: 10px;
           margin-top: 10px;
         }
 
         .collage-grid img {
           width: 100%;
-          height: auto;
+          height: 200px; /* Fixed height for consistent aspect ratio */
           object-fit: cover;
           border: 1px solid #ccc;
           padding: 3px;
         }
+
+        #randomGallery h3 {
+          text-align: center;
+        }
+
+
 
 
     </style>
@@ -241,8 +247,7 @@
     <section id="randomGallery">
       <h3>Dokumentasi Zakat Fitrah 1445H / 2024 </h3>
       <div id="randomImages" class="collage-grid"></div>
-    </section>
-
+    </section>   
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -378,7 +383,7 @@
     });
    
           document.addEventListener('DOMContentLoaded', function() {
-        fetch('https://script.google.com/macros/s/AKfycbz_sMTQDfr7xUy0n-tOazmYlseOzeQXNrS-32AuSZp2GgJ-_7IWpYyJPP8RlvKLDhc/exec')
+        fetch('https://script.google.com/macros/s/AKfycbyTDie8K7_Qcq5bqHCs9L1r-_gjzAUiDsuuZV_XimfXL58k-D07NKjHuZpYKDQXuBsy/exec')
       .then(response => response.json())
       .then(data => {
         var container = document.getElementById('randomImages');
