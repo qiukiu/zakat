@@ -255,6 +255,14 @@
             </div>
             <!-- Bagian untuk mengunggah bukti atau konfirmasi kehadiran -->
             <div id="paymentEvidenceSection" style="margin-top:10px;"></div>
+
+            <div class="form-group">
+                  <label for="ibanField">Nomor IBAN:</label>
+                      <div class="input-group">
+                        <input type="text" id="ibanField" value="DE66291900240049959500" readonly class="form-control">
+                        <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
+                      </div>
+            </div>
         </section>
 
         <!-- Instruksi dan Acknowledgement -->
@@ -331,15 +339,7 @@
         let html = '';
         if (method === 'IBAN transfer') {
           // Tampilkan input file untuk upload screenshot (gambar)
-          html = `<p> KMIB e.V. IBAN: DE66 2919 0024 0049 9595 00</p>
-                  <div class="form-group">
-                  <label for="ibanField">Nomor IBAN:</label>
-                      <div class="input-group">
-                        <input type="text" id="ibanField" value="DE66291900240049959500" readonly class="form-control">
-                        <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
-                      </div>
-                    </div>
-
+          html = `<p> KMIB e.V. IBAN: DE66 2919 0024 0049 9595 00</p>                
                   <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
                   <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>`;
         } else if (method === 'Paypal friends and familly') {
