@@ -43,7 +43,7 @@
     input[type="email"],
     input[type="number"],
     input[type="file"] {
-      width: 100%;
+      width: 85%;
       padding: 8px;
       margin-top: 4px;
       box-sizing: border-box;
@@ -145,7 +145,7 @@
     .form-container {
       display: flex;
       align-items: center; /* Align items vertically centered */
-      justify-content: flex-start; /* Align items to the left */
+      justify-content: space-between; 
     }
 
     /* Style for the input field */
@@ -186,11 +186,14 @@
   <form id="donationForm" enctype="multipart/form-data">
     <!-- Personal Information -->
     <section id="personalInfo">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-      
-      <label for="asalKota">Asal Kota:</label>
-      <input type="text" id="asalKota" name="asalKota" required>
+      <div class="form-container">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-container">
+        <label for="asalKota">Asal Kota:</label>
+        <input type="text" id="asalKota" name="asalKota" required>
+      </div>
     </section>
     
     <!-- Donation Type Selection -->
@@ -212,8 +215,10 @@
       <p>زكاة الفطرطهرة للصائم من الرفث وطعمة للفقراء والمساكين<a><span>[1]</span></a></p>
       <p>Artinya : Zakat fitrah mensucikan bagi orang yang berpuasa dari kotoran/dosa, dan makanan bagi orang fakir dan miskin.</p>
       <p>Besaran zakat fitrah adalah 2.75 kg bahan pokok, atau 3 kg untuk berjaga-jaga.</p>
+      <div class="form-container">
       <label for="jumlahJiwa">Jumlah Jiwa:</label>
       <input type="number" id="jumlahJiwa" name="jumlahJiwa" min="1">
+      </div>
       <p>Zakat Fitrah: 10€ per jiwa</p>
       <div id="fitrahNames"></div>
       <img src="Niat Zakat Fitrah.png" alt="Niat Zakat Fitrah">
@@ -228,10 +233,14 @@
       <p>Maal berasal dari kata bahasa Arab artinya harta atau kekayaan. Menurut Islam, harta merupakan sesuatu yang boleh dimiliki dan digunakan sesuai kebutuhan. Zakat maal dikenakan atas berbagai jenis harta dan perhitungannya dilakukan oleh muzakki sendiri.</p>
       <a href="https://www.hasene.org/de/zakat-rechner/">https://www.hasene.org/de/zakat-rechner/</a>
       <div>
+      <div class="form-container">
       <label for="namaMaal">Nama:</label>
       <input type="text" id="namaMaal" name="namaMaal">
+      </div>
+      <div class="form-container">
       <label for="jumlahMaal">Jumlah Zakat Maal:</label>
       <input type="number" id="jumlahMaal" name="jumlahMaal" min="0">
+      </div>
       </div>
     </section>
     
@@ -240,20 +249,28 @@
       <h3>Fidyah</h3>
       <p>الفدية هي مدواحد لكل يوم من غالب قوت البلد...</p>
       <p>Dikeluarkan 1 mud setiap harinya berupa bahan makanan pokok. Atau sama dengan 0,68 Kg (2.75 kg/4 mud).</p>
+      <div class="form-container">
       <label for="namaFidyah">Nama:</label>
       <input type="text" id="namaFidyah" name="namaFidyah">
+      </div>
+      <div class="form-container">
       <label for="jumlahHari">Jumlah Hari:</label>
       <input type="number" id="jumlahHari" name="jumlahHari" min="0">
+      </div>
       <p>Fidyah: 3€ per hari</p>
     </section>
     
     <!-- Infak Section -->
     <section id="section-infak" class="donation-section" style="display:none;">
       <h3>Infak</h3>
+      <div class="form-container">
       <label for="namaInfak">Nama:</label>
       <input type="text" id="namaInfak" name="namaInfak">
+      </div>
+      <div class="form-container">
       <label for="jumlahInfak">Jumlah Infak:</label>
       <input type="number" id="jumlahInfak" name="jumlahInfak" min="0">
+      </div>
     </section>
     
     <!-- Summary Section -->
