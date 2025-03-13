@@ -141,12 +141,26 @@
       vertical-align: middle;
       margin-bottom: 7px;
     }
+    /* Style for the form container */
+    .form-container {
+      display: flex;
+      align-items: center; /* Align items vertically centered */
+      justify-content: flex-start; /* Align items to the left */
+    }
 
+    /* Style for the input field */
+    .form-control {
+      padding: 10px;
+      font-size: 1.2em;
+      margin-right: 10px; /* Space between input and button */
+    }
+
+    /* Style for the link that will act as a button */
     .button-link {
       display: inline-block;
       background-color: #2196F3;
       color: white;
-      padding: 5px 10px;
+      padding: 10px 20px;
       text-align: center;
       border: none;
       border-radius: 5px;
@@ -159,8 +173,6 @@
     .button-link:hover {
       background-color: #1976D2;
     }
-
-
   </style>
 </head>
 <body>
@@ -351,11 +363,10 @@
         } else if (method === 'Paypal friends and familly') {
           html = `
             <p>pastikan paypal familly and friends terpilih agar tidak terpotong</p>
-            <div>
+            <div class="form-container">
               <input type="text" id="paypaladdress" value="paypal@kmibremen.de" readonly class="form-control">
-              <a href="mailto:paypal@kmibremen.de" class="button-link" target="_blank">
-              <button type="button" class="button-link">Paypal KMIB</button>
-              </a>
+              <!-- Link styled as a button -->
+              <a href="mailto:paypal@kmibremen.de" class="button-link" target="_blank">Paypal KMIB</a>
             </div>
             <div><label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
             <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required></div>
