@@ -369,28 +369,33 @@
         if (method === 'IBAN transfer') {
           html = `
             <div class="iban-section">
-              <div class="form-group">
-                <div class="form-container">
-                  <h3>Nama Bank:</h3>
-                  <input type="text" id="namaBank" value="Bremische Volksbank" readonly class="form-control">
-                </div>
-                <div class="form-container">
-                  <h3>Atas Nama:</h3>
-                  <input type="text" id="atasNamaBank" value="KMIB.e.V" readonly class="form-control">
-                </div>
-                <div class="input-group">
-                  <h3>IBAN:   </h3>
-                  <input type="text" id="ibanField" value="DE66291900240049959500" readonly class="form-control">
-                  <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
-                </div>
-                <div class="form-container">
-                  <h3>Zweck:</h3>
-                <input type="text" id="zweckb" value="Zakat (nama)" readonly class="form-control">
-                </div>
-              </div>
-              <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
-              <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
-            </div>
+  <h3>Detail Transfer IBAN</h3>
+  <table border="1" cellpadding="10" cellspacing="0">
+    <tr>
+      <td><strong>Nama Bank</strong></td>
+      <td>Bremische Volksbank</td>
+    </tr>
+    <tr>
+      <td><strong>Atas Nama</strong></td>
+      <td>KMIB.e.V</td>
+    </tr>
+    <tr>
+      <td><strong>IBAN</strong></td>
+      <td>
+        <span id="ibanField">DE66291900240049959500</span>
+        <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Zweck</strong></td>
+      <td>Zakat (nama)</td>
+    </tr>
+  </table>
+  <br>
+  <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
+  <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
+</div>
+
           `;
         } else if (method === 'Paypal friends and familly') {
           html = `
