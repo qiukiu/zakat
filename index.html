@@ -133,13 +133,13 @@
 
     input[type="checkbox"] {
       vertical-align: middle;
-      margin-right: 10px;
+      margin-right: 8px;
     }
 
     label {
       display: inline-block;
       vertical-align: middle;
-      margin-bottom: 5px;
+      margin-bottom: 7px;
     }
 
   </style>
@@ -332,7 +332,10 @@
         } else if (method === 'Paypal friends and familly') {
           html = `
             <p>pastikan paypal familly and friends terpilih agar tidak terpotong</p>
-            <a href="mailto:paypal@kmibremen.de">paypal@kmibremen.de</a>
+            <input type="text" id="paypaladdress" value="paypal@kmibremen.de" readonly class="form-control">
+            <a href="mailto:paypal@kmibremen.de">
+            <button>Paypal KMIB</button>
+            </a>
             <div><label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
             <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required></div>
           `;
