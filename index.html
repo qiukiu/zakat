@@ -409,6 +409,10 @@
                         <td><strong>Zweck</strong></td>
                         <td>Zakat (nama)</td>
                     </tr>
+                    <tr>
+                        <td><strong>Opsi</strong></td>
+                        <td>Paypal friends and family!</td>
+                    </tr>
                 </table>
                 <br>
                 <label for="paypalScreenshot">Upload Screenshot Transaksi (gambar):</label>
@@ -417,6 +421,21 @@
         `;
     } else if (method === 'Cash') {
         html = `
+            <h3>Detail Cash</h3>
+            <table border="1" cellpadding="10" cellspacing="0">
+                    <tr>
+                        <td><strong>Tempat</strong></td>
+                        <td>Musholla Ar-Raudhah</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alamat</strong></td>
+                        <td>Woltmershauserstr. 466</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Waktu</strong></td>
+                        <td>21,22,28,29 Maret 2025</td>
+                    </tr>
+                </table>
             <input type="checkbox" id="cashConfirmation" name="cashConfirmation" value="ya" required>
             <label for="cashConfirmation">Saya akan hadir secara langsung untuk pembayaran tunai.</label>
         `;
