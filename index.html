@@ -146,7 +146,7 @@
       display: inline-block;
       background-color: #2196F3;
       color: white;
-      padding: 10px 20px;
+      padding: 5px 10px;
       text-align: center;
       border: none;
       border-radius: 5px;
@@ -156,9 +156,9 @@
       transition: background-color 0.3s;
     }
 
-.button-link:hover {
-  background-color: #1976D2;
-}
+    .button-link:hover {
+      background-color: #1976D2;
+    }
 
 
   </style>
@@ -351,8 +351,10 @@
         } else if (method === 'Paypal friends and familly') {
           html = `
             <p>pastikan paypal familly and friends terpilih agar tidak terpotong</p>
-            <input type="text" id="paypaladdress" value="paypal@kmibremen.de" readonly class="form-control">
-            <a href="mailto:paypal@kmibremen.de" class="button-link" target="_blank">
+            <div>
+              <input type="text" id="paypaladdress" value="paypal@kmibremen.de" readonly class="form-control">
+              <a href="mailto:paypal@kmibremen.de" class="button-link" target="_blank">
+            </div>
             <button type="button" class="button-link">Paypal KMIB</button>
             </a>
             <div><label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
