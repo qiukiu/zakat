@@ -160,7 +160,7 @@
       display: inline-block;
       background-color: #2196F3;
       color: white;
-      padding: 10px 20px;
+      padding: 0px 8px;
       text-align: center;
       border: none;
       border-radius: 5px;
@@ -227,10 +227,12 @@
       <h3>Zakat Maal</h3>
       <p>Maal berasal dari kata bahasa Arab artinya harta atau kekayaan. Menurut Islam, harta merupakan sesuatu yang boleh dimiliki dan digunakan sesuai kebutuhan. Zakat maal dikenakan atas berbagai jenis harta dan perhitungannya dilakukan oleh muzakki sendiri.</p>
       <a href="https://www.hasene.org/de/zakat-rechner/">https://www.hasene.org/de/zakat-rechner/</a>
+      <div>
       <label for="namaMaal">Nama:</label>
       <input type="text" id="namaMaal" name="namaMaal">
       <label for="jumlahMaal">Jumlah Zakat Maal:</label>
       <input type="number" id="jumlahMaal" name="jumlahMaal" min="0">
+      </div>
     </section>
     
     <!-- Fidyah Section -->
@@ -363,10 +365,12 @@
         } else if (method === 'Paypal friends and familly') {
           html = `
             <p>pastikan paypal familly and friends terpilih agar tidak terpotong</p>
+            <div>
             <div class="form-container">
               <input type="text" id="paypaladdress" value="paypal@kmibremen.de" readonly class="form-control">
               <!-- Link styled as a button -->
               <a href="mailto:paypal@kmibremen.de" class="button-link" target="_blank">Paypal KMIB</a>
+            </div>
             </div>
             <div><label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
             <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required></div>
