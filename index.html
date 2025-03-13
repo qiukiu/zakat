@@ -365,86 +365,85 @@
       });
       
       function updatePaymentEvidence(method) {
-        let html = '';
-        if (method === 'IBAN transfer') {
-          html = `
+    let html = '';
+    if (method === 'IBAN transfer') {
+        html = `
             <div class="iban-section">
-  <h3>Detail Transfer IBAN</h3>
-  <table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-      <td><strong>Nama Bank</strong></td>
-      <td>Bremische Volksbank</td>
-    </tr>
-    <tr>
-      <td><strong>Atas Nama</strong></td>
-      <td>KMIB.e.V</td>
-    </tr>
-    <tr>
-      <td><strong>IBAN</strong></td>
-      <td>
-        <span id="ibanField">DE66291900240049959500</span>
-        <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Zweck</strong></td>
-      <td>Zakat (nama)</td>
-    </tr>
-  </table>
-  <br>
-  <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
-  <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
-</div>
-
-          `;
-        } else if (method === 'Paypal friends and familly') {
-          html = `
+                <h3>Detail Transfer IBAN</h3>
+                <table border="1" cellpadding="10" cellspacing="0">
+                    <tr>
+                        <td><strong>Nama Bank</strong></td>
+                        <td>Bremische Volksbank</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Atas Nama</strong></td>
+                        <td>KMIB.e.V</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IBAN</strong></td>
+                        <td>
+                            <span id="ibanField">DE66291900240049959500</span>
+                            <button type="button" id="copyIbanButton" class="btn btn-secondary">Salin IBAN</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zweck</strong></td>
+                        <td>Zakat (nama)</td>
+                    </tr>
+                </table>
+                <br>
+                <label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
+                <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required>
+            </div>
+        `;
+    } else if (method === 'Paypal friends and familly') {
+        html = `
             <div class="paypal-section">
-  <h3>Detail Transfer PayPal</h3>
-  <table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-      <td><strong>Email PayPal</strong></td>
-      <td>kassenzakat@kmib.de</td>
-      <td rowspan="2"><strong>Harus dikirim sebagai "Friends & Family"</strong></td>
-    </tr>
-    <tr>
-      <td><strong>Zweck</strong></td>
-      <td>Zakat (nama)</td>
-    </tr>
-  </table>
-  <br>
-  <label for="paypalScreenshot">Upload Screenshot Transaksi (gambar):</label>
-  <input type="file" id="paypalScreenshot" name="paypalScreenshot" accept="image/*" required>
-</div>
-          `;
-        } else if (method === 'Cash') {
-          html = `
+                <h3>Detail Transfer PayPal</h3>
+                <table border="1" cellpadding="10" cellspacing="0">
+                    <tr>
+                        <td><strong>Email PayPal</strong></td>
+                        <td>paypal@kmibremen.de</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zweck</strong></td>
+                        <td>Zakat (nama)</td>
+                    </tr>
+                </table>
+                <br>
+                <label for="paypalScreenshot">Upload Screenshot Transaksi (gambar):</label>
+                <input type="file" id="paypalScreenshot" name="paypalScreenshot" accept="image/*" required>
+            </div>
+        `;
+    } else if (method === 'Cash') {
+        html = `
             <input type="checkbox" id="cashConfirmation" name="cashConfirmation" value="ya" required>
             <label for="cashConfirmation">Saya akan hadir secara langsung untuk pembayaran tunai.</label>
-          `;
-        }
-        paymentEvidenceSection.innerHTML = html;
-        
-        // Attach IBAN copy event listener if IBAN transfer is selected
-        if (method === 'IBAN transfer') {
-          const copyButton = document.getElementById('copyIbanButton');
-          if (copyButton) {
+        `;
+    }
+    paymentEvidenceSection.innerHTML = html;
+
+    // Attach IBAN copy event listener if IBAN transfer is selected
+    if (method === 'IBAN transfer') {
+        const copyButton = document.getElementById('copyIbanButton');
+        if (copyButton) {
             copyButton.addEventListener('click', function() {
-              const text = document.getElementById('ibanField').value;
-              if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text)
-                  .then(() => alert("IBAN berhasil disalin!"))
-                  .catch(err => {
-                    console.error("Clipboard error:", err);
+                const text = document.getElementById('ibanField').textContent; // Use textContent instead of value
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text)
+                        .then(() => alert("IBAN berhasil disalin!"))
+                        .catch(err => {
+                            console.error("Clipboard error:", err);
+                            fallbackCopyText(text);
+                        });
+                } else {
                     fallbackCopyText(text);
-                  });
-              } else {
-                fallbackCopyText(text);
-              }
+                }
             });
-          }
         }
-      }
+    }
+}
+
       
       function updateSummary() {
         let total = 0;
