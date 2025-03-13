@@ -399,21 +399,23 @@
           `;
         } else if (method === 'Paypal friends and familly') {
           html = `
-            <p>pastikan paypal friends and family terpilih agar tidak terpotong</p>
-            <div>
-            <div class="form-container">
-              <h3>Email Paypal:</h3>
-              <input type="text" id="paypaladdress" value="paypal@kmibremen.de" readonly class="form-control">
-              <!-- Link styled as a button -->
-              <a href="mailto:paypal@kmibremen.de" class="button-link" target="_blank">Paypal KMIB</a>
-            </div>
-             <div class="form-container">
-                <h3>Zweck:</h3>
-                <input type="text" id="zweckpp" value="Zakat (nama)" readonly class="form-control">
-                </div>
-            </div>
-            <div><label for="paymentScreenshot">Upload Screenshot Transaksi (gambar):</label>
-            <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" required></div>
+            <div class="paypal-section">
+  <h3>Detail Transfer PayPal</h3>
+  <table border="1" cellpadding="10" cellspacing="0">
+    <tr>
+      <td><strong>Email PayPal</strong></td>
+      <td>kassenzakat@kmib.de</td>
+      <td rowspan="2"><strong>Harus dikirim sebagai "Friends & Family"</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Zweck</strong></td>
+      <td>Zakat (nama)</td>
+    </tr>
+  </table>
+  <br>
+  <label for="paypalScreenshot">Upload Screenshot Transaksi (gambar):</label>
+  <input type="file" id="paypalScreenshot" name="paypalScreenshot" accept="image/*" required>
+</div>
           `;
         } else if (method === 'Cash') {
           html = `
