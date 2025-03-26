@@ -16,73 +16,58 @@
     <section id="confirmationSection">
         <h2>Terima Kasih Atas Donasi Anda!</h2>
         <p>Kami telah menerima donasi Anda dengan rincian sebagai berikut:</p>
-        
-        <div id="summaryContainer"></div>
-        
+        <div id="confirmationText"></div>
         <p>Silakan simpan halaman ini sebagai bukti donasi Anda.</p>
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const summaryContainer = document.getElementById('summaryContainer');
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const formData = JSON.parse(decodeURIComponent(urlParams.get('data')));
 
-            // Create a summary table for each donation type
-            const donationTypes = ['fitrah', 'maal', 'fidyah', 'infak'];
-            donationTypes.forEach(type => {
-                const name = urlParams.get(`nama${type.charAt(0).toUpperCase() + type.slice(1)}`);
-                const amount = urlParams.get(`jumlah${type.charAt(0).toUpperCase() + type.slice(1)}`);
-                const table = document.createElement('table');
-                table.border = "1";
-                table.cellPadding = "10";
-                table.cellSpacing = "0";
-                let hasData = false;
-
-                if (name || amount) {
-                    hasData = true;
-                    const headerRow = table.insertRow();
-                    const headerCell = document.createElement('th');
-                    headerCell.colSpan = 2;
-                    headerCell.textContent = `Rincian ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-                    headerRow.appendChild(headerCell);
-                }
-
-                if (name) {
-                    const row = table.insertRow();
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    cell1.textContent = 'Nama';
-                    cell2.textContent = name;
-                }
-
-                if (amount) {
-                    const row = table.insertRow();
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    cell1.textContent = 'Jumlah';
-                    cell2.textContent = amount;
-                }
-
-                if (hasData) {
-                    summaryContainer.appendChild(table);
-                }
-            });
-
-            // Display payment method
-            const paymentMethod = urlParams.get('paymentMethod');
-            if (paymentMethod) {
-                const paymentTable = document.createElement('table');
-                paymentTable.border = "1";
-                paymentTable.cellPadding = "10";
-                paymentTable.cellSpacing = "0";
-                const paymentRow = paymentTable.insertRow();
-                const paymentCell1 = paymentRow.insertCell(0);
-                const paymentCell2 = paymentRow.insertCell(1);
-                paymentCell1.textContent = 'Metode Pembayaran';
-                paymentCell2.textContent = paymentMethod;
-                summaryContainer.appendChild(paymentTable);
+    // Function to create a table for a donation type
+    function createDonationTable(title, data) {
+        let tableHTML = `<h3>${title}</h3><table border="1" cellpadding="10" cellspacing="0"><tbody>`;
+        for (const [key, value] of Object.entries(data)) {
+            if (value) { // Only include fields that are not empty
+                tableHTML += `<tr><td><strong>${key}</strong></td><td>${value}</td></tr>`;
             }
-        });
+        }
+        tableHTML += '</tbody></table>';
+        return tableHTML;
+    }
+
+    // Initialize summary HTML
+    let summaryHTML = '';
+
+    // Zakat Fitrah Summary
+    if (formData.zakatFitrah && Object.keys(formData.zakatFitrah).length > 0) {
+        summaryHTML += createDonationTable('Zakat Fitrah', formData.zakatFitrah);
+    }
+
+    // Zakat Maal Summary
+    if (formData.zakatMaal && Object.keys(formData.zakatMaal).length > 0) {
+        summaryHTML += createDonationTable('Zakat Maal', formData.zakatMaal);
+    }
+
+    // Fidyah Summary
+    if (formData.fidyah && Object.keys(formData.fidyah).length > 0) {
+        summaryHTML += createDonationTable('Fidyah', formData.fidyah);
+    }
+
+    // Infak Summary
+    if (formData.infak && Object.keys(formData.infak).length > 0) {
+        summaryHTML += createDonationTable('Infak', formData.infak);
+    }
+
+    // Payment Method Summary
+    if (formData.paymentMethod) {
+        summaryHTML += `<h3>Payment Method</h3><p>${formData.paymentMethod}</p>`;
+    }
+
+    // Insert summary into the confirmation section
+    document.getElementById('confirmationText').innerHTML = summaryHTML;
+});
     </script>
 </body>
 </html>
