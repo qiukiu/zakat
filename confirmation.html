@@ -1,101 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.7">
-    <title>Konfirmasi Zakat KMIB 1446H / 2025</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
+  <title>Konfirmasi Zakat KMIB 1446H / 2025</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="header-container">
-        <img src="Logokmib.png" alt="KMIB" class="logo">
-        <h1>Konfirmasi Zakat KMIB 1446H / 2025</h1>
-        <img src="Logoppa.png" alt="ppa" class="logo">
-    </div>
+  <div class="header-container">
+    <img src="Logokmib.png" alt="KMIB" class="logo">
+    <h1>Konfirmasi Zakat KMIB 1446H / 2025</h1>
+    <img src="Logoppa.png" alt="ppa" class="logo">
+  </div>
 
-    <section id="confirmationSection">
-        <h2>Terima Kasih Atas Kepercayaan Anda!</h2>
-        <p>Kami telah menerima donasi Anda dengan rincian sebagai berikut:</p>
-        <div id="summaryTables"></div>
-    </section>
+  <section id="confirmationSection">
+    <h2>Terima Kasih Atas Kepercayaan Anda!</h2>
+    <p>Kami telah menerima donasi Anda dengan rincian sebagai berikut:</p>
+    <div id="summaryContainer"></div>
+    <p>Silakan simpan halaman ini sebagai bukti donasi Anda.</p>
+  </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const summaryData = {
-                email: urlParams.get('email'),
-                asalKota: urlParams.get('asalKota'),
-                paymentMethod: urlParams.get('paymentMethod'),
-                fitrah: {
-                    jumlahJiwa: urlParams.get('jumlahJiwa'),
-                    names: []
-                },
-                maal: {
-                    namaMaal: urlParams.get('namaMaal'),
-                    jumlahMaal: urlParams.get('jumlahMaal')
-                },
-                fidyah: {
-                    namaFidyah: urlParams.get('namaFidyah'),
-                    jumlahHari: urlParams.get('jumlahHari')
-                },
-                infak: {
-                    namaInfak: urlParams.get('namaInfak'),
-                    jumlahInfak: urlParams.get('jumlahInfak')
-                }
-            };
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const summary = JSON.parse(decodeURIComponent(urlParams.get('summary')));
+      const summaryContainer = document.getElementById('summaryContainer');
 
-            // Populate names for Zakat Fitrah
-            const fitrahCount = summaryData.fitrah.jumlahJiwa;
-            for (let i = 1; i <= fitrahCount; i++) {
-                const name = urlParams.get(`namaFitrah_${i}`);
-                if (name) {
-                    summaryData.fitrah.names.push(name);
-                }
-            }
-
-            // Create summary tables
-            let summaryHTML = '';
-
-            // Zakat Fitrah Table
-            if (fitrahCount > 0 && summaryData.fitrah.names.length > 0) {
-                summaryHTML += '<h3>Zakat Fitrah</h3>';
-                summaryHTML += '<table border="1"><tr><th>Jumlah Jiwa</th><th>Nama</th></tr>';
-                summaryHTML += `<tr><td>${fitrahCount}</td><td>${summaryData.fitrah.names.join(', ')}</td></tr>`;
-                summaryHTML += '</table>';
-            }
-
-            // Zakat Maal Table
-            if (summaryData.maal.namaMaal && summaryData.maal.jumlahMaal) {
-                summaryHTML += '<h3>Zakat Maal</h3>';
-                summaryHTML += '<table border="1"><tr><th>Nama</th><th>Jumlah</th></tr>';
-                summaryHTML += `<tr><td>${summaryData.maal.namaMaal}</td><td>${summaryData.maal.jumlahMaal}</td></tr>`;
-                summaryHTML += '</table>';
-            }
-
-            // Fidyah Table
-            if (summaryData.fidyah.namaFidyah && summaryData.fidyah.jumlahHari) {
-                summaryHTML += '<h3>Fidyah</h3>';
-                summaryHTML += '<table border="1"><tr><th>Nama</th><th>Jumlah Hari</th></tr>';
-                summaryHTML += `<tr><td>${summaryData.fidyah.namaFidyah}</td><td>${summaryData.fidyah.jumlahHari}</td></tr>`;
-                summaryHTML += '</table>';
-            }
-
-            // Infak Table
-            if (summaryData.infak.namaInfak && summaryData.infak.jumlahInfak) {
-                summaryHTML += '<h3>Infak</h3>';
-                summaryHTML += '<table border="1"><tr><th>Nama</th><th>Jumlah</th></tr>';
-                summaryHTML += `<tr><td>${summaryData.infak.namaInfak}</td><td>${summaryData.infak.jumlahInfak}</td></tr>`;
-                summaryHTML += '</table>';
-            }
-
-            // Payment Method
-            if (summaryData.paymentMethod) {
-                summaryHTML += `<h3>Metode Pembayaran</h3><p>${summaryData.paymentMethod}</p>`;
-            }
-
-            // Insert summary HTML into the page
-            document.getElementById('summaryTables').innerHTML = summaryHTML;
-        });
-    </script>
+      // Create a summary display
+      for (const [key, value] of Object.entries(summary)) {
+        const summaryItem = document.createElement('p');
+        summaryItem.textContent = `${key.replace(/([A-Z])/g, ' $1')}: ${value}`; // Format key to be more readable
+        summaryContainer.appendChild(summaryItem);
+      }
+    });
+  </script>
 </body>
 </html>
