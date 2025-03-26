@@ -52,8 +52,12 @@
                 <td class="col-2" id="kotaDisplay"></td>
             </tr>
             <tr>
-                <th class="col-1">Total yang Dibayarkan</th>
+                <th class="col-1">Total Pembayaran</th>
                 <td class="col-2" id="totalDisplay"></td>
+            </tr>
+            <tr>
+                <th class="col-1">Metode Bayar</th>
+                <td class="col-2" id="paymentMethodDisplay"></td>
             </tr>
         </table>
 
@@ -69,6 +73,7 @@
             document.getElementById('emailDisplay').textContent = urlParams.get('email') || 'N/A';
             document.getElementById('kotaDisplay').textContent = urlParams.get('asalKota') || 'N/A';
             document.getElementById('totalDisplay').textContent = urlParams.get('totalAmount') + '€' || '0€';
+            document.getElementById('paymentMethodDisplay').textContent = urlParams.get('paymentMethod') || 'N/A';
 
             // Create a summary table for each donation type
             const donationTypes = ['fitrah', 'maal', 'fidyah', 'infak'];
@@ -144,20 +149,6 @@
                     summaryContainer.appendChild(table);
                 }
             });
-
-            // Display payment method
-            const paymentMethod = urlParams.get('paymentMethod');
-            if (paymentMethod) {
-                const paymentTable = document.createElement('table');
-                const paymentRow = paymentTable.insertRow();
-                const paymentCell1 = paymentRow.insertCell(0);
-                const paymentCell2 = paymentRow.insertCell(1);
-                paymentCell1.className = 'col-1';
-                paymentCell2.className = 'col-2';
-                paymentCell1.textContent = 'Metode Pembayaran';
-                paymentCell2.textContent = paymentMethod;
-                summaryContainer.appendChild(paymentTable);
-            }
         });
     </script>
 </body>
