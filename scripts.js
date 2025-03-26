@@ -258,11 +258,6 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
         alert('Terjadi kesalahan: ' + error.message);
     });
 });
-
-
-
-
-    });
     
     // Fetch random images for the gallery
     document.addEventListener('DOMContentLoaded', function() {
