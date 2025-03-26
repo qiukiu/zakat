@@ -151,45 +151,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateSummary() {
         let total = 0;
+        const summaryData = {};
+
         // Zakat Fitrah: jumlah jiwa x 10€
         if (document.querySelector('.toggle-button[data-type="fitrah"]').classList.contains('active')) {
             const jumlahJiwa = parseInt(document.getElementById('jumlahJiwa').value) || 0;
             total += jumlahJiwa * 10;
+            summaryData['Zakat Fitrah'] = {
+                'Jumlah Jiwa': jumlahJiwa,
+                'Total': jumlahJiwa * 10
+            };
         }
+
         // Zakat Maal: jumlah yang diinput
         if (document.querySelector('.toggle-button[data-type="maal"]').classList.contains('active')) {
             const jumlahMaal = parseFloat(document.getElementById('jumlahMaal').value) || 0;
             total += jumlahMaal;
+            summaryData['Zakat Maal'] = {
+                'Jumlah': jumlahMaal,
+                'Total': jumlahMaal
+            };
         }
+
         // Fidyah: jumlah hari x 3€
         if (document.querySelector('.toggle-button[data-type="fidyah"]').classList.contains('active')) {
             const jumlahHari = parseInt(document.getElementById('jumlahHari').value) || 0;
             total += jumlahHari * 3;
+            summaryData['Fidyah'] = {
+                'Jumlah Hari': jumlahHari,
+                'Total': jumlahHari * 3
+            };
         }
+
         // Infak: jumlah yang diinput
         if (document.querySelector('.toggle-button[data-type="infak"]').classList.contains('active')) {
             const jumlahInfak = parseFloat(document.getElementById('jumlahInfak').value) || 0;
             total += jumlahInfak;
+            summaryData['Infak'] = {
+                'Jumlah': jumlahInfak,
+                'Total': jumlahInfak
+            };
         }
+
         document.getElementById('summaryText').textContent = 'Total: ' + total + '€';
+
+        // Store summary data in local storage for confirmation page
+        localStorage.setItem('summaryData', JSON.stringify(summaryData));
     }
 
     // Form submission: send data to Google Apps Script
     document.getElementById('donationForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(this);
-        const summaryData = {};
 
-        // Collect data from the form
-        formData.forEach((value, key) => {
-            if (key !== 'niat' && key !== 'transferConfirmation' && key !== 'acknowledge') {
-                summaryData[key] = value;
-            }
-        });
-
-        // Redirect to confirmation page with summary data
-        const queryString = new URLSearchParams(summaryData).toString();
-        window.location.href = 'confirmation.html?' + queryString;
+        // Redirect to confirmation page
+        window.location.href = 'confirmation.html';
 
         // Send data to Google Sheets
         fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
@@ -197,53 +213,4 @@ document.addEventListener('DOMContentLoaded', function() {
             body: formData
         });
     });
-
-    // Fetch random images for the gallery
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('https://script.google.com/macros/s/AKfycbweRwKHsxyhAGD1h6aHa8R58UK1vaEWSSm7HgkXx8VrssfNZoM6GYXRmovW87KX97Yu/exec')
-            .then(response => response.json())
-            .then(data => {
-                var container = document.getElementById('randomImages');
-                data.forEach(function(image) {
-                    var img = document.createElement('img');
-                    img.src = image.url;
-                    img.alt = "Random Image";
-                    container.appendChild(img);
-                });
-            })
-            .catch(error => console.error('Error fetching images:', error));
-    });
-
-    // Fallback copy function using document.execCommand
-    function fallbackCopyText(text) {
-        var textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.top = 0;
-        textarea.style.left = 0;
-        textarea.style.width = "2em";
-        textarea.style.height = "2em";
-        textarea.style.padding = 0;
-        textarea.style.border = "none";
-        textarea.style.outline = "none";
-        textarea.style.boxShadow = "none";
-        textarea.style.background = "transparent";
-
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-
-        try {
-            var successful = document.execCommand('copy');
-            if (successful) {
-                alert("IBAN berhasil disalin (fallback)!");
-            } else {
-                alert("Gagal menyalin IBAN.");
-            }
-        } catch (err) {
-            alert("Gagal menyalin IBAN: " + err);
-        }
-
-        document.body.removeChild(textarea);
-    }
 });
