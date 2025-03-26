@@ -14,21 +14,24 @@
   </div>
 
   <section id="confirmationSection">
-    <h2>Terima Kasih Atas kepercayaan anda!</h2>
-    <p>Kami telah menerima donasi anda dengan rincian sebagai berikut:</p>
-    <div id="confirmationText"></div>
+    <h2>Terima Kasih Atas Kepercayaan Anda!</h2>
+    <p>Kami telah menerima donasi Anda dengan rincian sebagai berikut:</p>
+    <div id="summaryContainer"></div>
     <p>Silakan simpan halaman ini sebagai bukti donasi Anda.</p>
   </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const urlParams = new URLSearchParams(window.location.search);
-      let summary = '<ul>';
-      for (const [key, value] of urlParams.entries()) {
-        summary += `<li><strong>${key}:</strong> ${decodeURIComponent(value)}</li>`;
+      const summary = JSON.parse(decodeURIComponent(urlParams.get('summary')));
+      const summaryContainer = document.getElementById('summaryContainer');
+
+      // Create a summary display
+      for (const [key, value] of Object.entries(summary)) {
+        const summaryItem = document.createElement('p');
+        summaryItem.textContent = `${key.replace(/([A-Z])/g, ' $1')}: ${value}`; // Format key to be more readable
+        summaryContainer.appendChild(summaryItem);
       }
-      summary += '</ul>';
-      document.getElementById('confirmationText').innerHTML = summary;
     });
   </script>
 </body>
