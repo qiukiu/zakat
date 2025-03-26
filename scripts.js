@@ -172,9 +172,11 @@ document.addEventListener('DOMContentLoaded', function() {
             total += jumlahInfak;
         }
         document.getElementById('summaryText').textContent = 'Total: ' + total + '€';
+
+        // Store the total amount in a global variable or directly in the formData
+        window.totalAmount = total; // Store total amount globally
     }
 
-    // Form submission: send data to Google Apps Script
     // Form submission: send data to Google Apps Script
     document.getElementById('donationForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -189,8 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Append the payment method to the form data
-        formData.append('paymentMethod', paymentMethod); // Ensure this line is present
+        // Append the payment method and total amount to the form data
+        formData.append('paymentMethod', paymentMethod);
+        formData.append('totalAmount', window.totalAmount); // Append total amount
 
         // Redirect to confirmation page with summary data
         const summaryData = {};
@@ -200,9 +203,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Include total amount in the query string
+        summaryData.totalAmount = window.totalAmount; // Add total amount to summary data
         const queryString = new URLSearchParams(summaryData).toString();
         window.location.href = 'confirmation.html?' + queryString;
-    
 
         fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
             method: 'POST',
