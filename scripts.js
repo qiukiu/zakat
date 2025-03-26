@@ -189,19 +189,23 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
   });
   formData.append('paymentMethod', paymentMethod);
 
+  // Convert form data to a query string
+  const queryString = new URLSearchParams(formData).toString();
+
   fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
     method: 'POST',
     body: formData
   })
   .then(response => response.text())
   .then(result => {
-    // Redirect to confirmation page
-    window.location.href = 'confirmation.html?result=' + encodeURIComponent(result);
+    // Redirect to confirmation page with data
+    window.location.href = 'confirmation.html?' + queryString;
   })
   .catch(error => {
     alert('Terjadi kesalahan: ' + error.message);
   });
 });
+
 
     });
     
