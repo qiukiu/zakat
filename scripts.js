@@ -179,14 +179,15 @@
 document.getElementById('donationForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const formData = new FormData(this);
-  let summaryData = {};
 
-  // Collect data for summary
-  formData.forEach((value, key) => {
-    if (value) { // Only include non-empty fields
-      summaryData[key] = value;
+  // Determine active payment method
+  let paymentMethod = '';
+  paymentButtons.forEach(btn => {
+    if (btn.classList.contains('active')) {
+      paymentMethod = btn.getAttribute('data-method');
     }
   });
+  formData.append('paymentMethod', paymentMethod);
 
   // Send data to Google Sheets
   fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
@@ -195,14 +196,46 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
   })
   .then(response => response.text())
   .then(result => {
+    // Redirect to confirmation page with formatted data
+    const summaryData = {
+      email: formData.get('email'),
+      asalKota: formData.get('asalKota'),
+      paymentMethod: paymentMethod,
+      fitrah: {
+        jumlahJiwa: formData.get('jumlahJiwa'),
+        names: []
+      },
+      maal: {
+        namaMaal: formData.get('namaMaal'),
+        jumlahMaal: formData.get('jumlahMaal')
+      },
+      fidyah: {
+        namaFidyah: formData.get('namaFidyah'),
+        jumlahHari: formData.get('jumlahHari')
+      },
+      infak: {
+        namaInfak: formData.get('namaInfak'),
+        jumlahInfak: formData.get('jumlahInfak')
+      }
+    };
+
+    // Collect names for Zakat Fitrah
+    const fitrahCount = parseInt(formData.get('jumlahJiwa')) || 0;
+    for (let i = 1; i <= fitrahCount; i++) {
+      const name = formData.get(`namaFitrah_${i}`);
+      if (name) {
+        summaryData.fitrah.names.push(name);
+      }
+    }
+
     // Redirect to confirmation page with summary data
-    const summaryString = encodeURIComponent(JSON.stringify(summaryData));
-    window.location.href = 'confirmation.html?summary=' + summaryString;
+    window.location.href = 'confirmation.html?' + new URLSearchParams(summaryData).toString();
   })
   .catch(error => {
     alert('Terjadi kesalahan: ' + error.message);
   });
 });
+
 
 
 
