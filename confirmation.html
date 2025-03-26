@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.7">
     <title>Konfirmasi Zakat KMIB 1446H / 2025</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%; /* Make tables take full width */
+            border-collapse: collapse; /* Collapse borders */
+            margin-bottom: 20px; /* Space between tables */
+        }
+        th, td {
+            border: 1px solid #000; /* Border for table cells */
+            padding: 10px; /* Padding inside cells */
+            text-align: left; /* Align text to the left */
+        }
+        th {
+            background-color: #f2f2f2; /* Light gray background for headers */
+        }
+        /* Set consistent widths for columns */
+        .col-1 {
+            width: 50%; /* First column width */
+        }
+        .col-2 {
+            width: 50%; /* Second column width */
+        }
+    </style>
 </head>
 <body>
     <div class="header-container">
@@ -32,32 +54,56 @@
                 const name = urlParams.get(`nama${type.charAt(0).toUpperCase() + type.slice(1)}`);
                 const amount = urlParams.get(`jumlah${type.charAt(0).toUpperCase() + type.slice(1)}`);
                 const table = document.createElement('table');
-                table.border = "1";
-                table.cellPadding = "10";
-                table.cellSpacing = "0";
                 let hasData = false;
 
-                if (name || amount) {
-                    hasData = true;
-                    const headerRow = table.insertRow();
-                    const headerCell = document.createElement('th');
-                    headerCell.colSpan = 2;
-                    headerCell.textContent = `Rincian ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-                    headerRow.appendChild(headerCell);
-                }
+                // Create header row
+                const headerRow = table.insertRow();
+                const headerCell1 = document.createElement('th');
+                const headerCell2 = document.createElement('th');
+                headerCell1.className = 'col-1'; // First column
+                headerCell2.className = 'col-2'; // Second column
+                headerCell1.textContent = `Rincian ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                headerCell2.textContent = ''; // Empty header for second column
+                headerRow.appendChild(headerCell1);
+                headerRow.appendChild(headerCell2);
+                table.appendChild(headerRow);
 
-                if (name) {
-                    const row = table.insertRow();
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    cell1.textContent = 'Nama';
-                    cell2.textContent = name;
+                // Add data for Zakat Fitrah
+                if (type === 'fitrah') {
+                    const jumlahJiwa = parseInt(urlParams.get('jumlahJiwa')) || 0;
+                    for (let i = 1; i <= jumlahJiwa; i++) {
+                        const namaFitrah = urlParams.get(`namaFitrah_${i}`);
+                        if (namaFitrah) {
+                            hasData = true;
+                            const row = table.insertRow();
+                            const cell1 = row.insertCell(0);
+                            const cell2 = row.insertCell(1);
+                            cell1.className = 'col-1';
+                            cell2.className = 'col-2';
+                            cell1.textContent = `Nama ${i}`;
+                            cell2.textContent = namaFitrah;
+                        }
+                    }
+                } else {
+                    if (name) {
+                        hasData = true;
+                        const row = table.insertRow();
+                        const cell1 = row.insertCell(0);
+                        const cell2 = row.insertCell(1);
+                        cell1.className = 'col-1';
+                        cell2.className = 'col-2';
+                        cell1.textContent = 'Nama';
+                        cell2.textContent = name;
+                    }
                 }
 
                 if (amount) {
+                    hasData = true;
                     const row = table.insertRow();
                     const cell1 = row.insertCell(0);
                     const cell2 = row.insertCell(1);
+                    cell1.className = 'col-1';
+                    cell2.className = 'col-2';
                     cell1.textContent = 'Jumlah';
                     cell2.textContent = amount;
                 }
@@ -67,46 +113,15 @@
                 }
             });
 
-            // Display Zakat Fitrah Names
-            const jumlahJiwa = urlParams.get('jumlahJiwa');
-            const fitrahNames = [];
-            for (let i = 1; i <= jumlahJiwa; i++) {
-                const fitrahName = urlParams.get(`namaFitrah_${i}`);
-                if (fitrahName) {
-                    fitrahNames.push(fitrahName);
-                }
-            }
-            if (fitrahNames.length > 0) {
-                const fitrahTable = document.createElement('table');
-                fitrahTable.border = "1";
-                fitrahTable.cellPadding = "10";
-                fitrahTable.cellSpacing = "0";
-                const headerRow = fitrahTable.insertRow();
-                const headerCell = document.createElement('th');
-                headerCell.colSpan = 2;
-                headerCell.textContent = 'Rincian Zakat Fitrah';
-                headerRow.appendChild(headerCell);
-                summaryContainer.appendChild(fitrahTable);
-
-                fitrahNames.forEach(name => {
-                    const row = fitrahTable.insertRow();
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    cell1.textContent = 'Nama';
-                    cell2.textContent = name;
-                });
-            }
-
             // Display payment method
             const paymentMethod = urlParams.get('paymentMethod');
             if (paymentMethod) {
                 const paymentTable = document.createElement('table');
-                paymentTable.border = "1";
-                paymentTable.cellPadding = "10";
-                paymentTable.cellSpacing = "0";
                 const paymentRow = paymentTable.insertRow();
                 const paymentCell1 = paymentRow.insertCell(0);
                 const paymentCell2 = paymentRow.insertCell(1);
+                paymentCell1.className = 'col-1';
+                paymentCell2.className = 'col-2';
                 paymentCell1.textContent = 'Metode Pembayaran';
                 paymentCell2.textContent = paymentMethod;
                 summaryContainer.appendChild(paymentTable);
