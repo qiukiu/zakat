@@ -3,27 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.7">
-  <title>Zakat KMIB 1446H / 2025</title>
+  <title>Konfirmasi Zakat KMIB 1446H / 2025</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="header-container">
     <img src="Logokmib.png" alt="KMIB" class="logo">
-    <h1>Zakat KMIB 1446H / 2025</h1>
+    <h1>Konfirmasi Zakat KMIB 1446H / 2025</h1>
     <img src="Logoppa.png" alt="ppa" class="logo">
   </div>
 
   <section id="confirmationSection">
-    <h2>Terima Kasih!</h2>
-    <p>Input data:</p>
-    <p id="confirmationText"></p>    
+    <h2>Terima Kasih Atas kepercayaan anda!</h2>
+    <p>Kami telah menerima donasi anda dengan rincian sebagai berikut:</p>
+    <div id="confirmationText"></div>
+    <p>Silakan simpan halaman ini sebagai bukti donasi Anda.</p>
   </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const urlParams = new URLSearchParams(window.location.search);
-      const result = urlParams.get('result');
-      document.getElementById('confirmationText').textContent = 'Detail Donasi: ' + decodeURIComponent(result);
+      let summary = '<ul>';
+      for (const [key, value] of urlParams.entries()) {
+        summary += `<li><strong>${key}:</strong> ${decodeURIComponent(value)}</li>`;
+      }
+      summary += '</ul>';
+      document.getElementById('confirmationText').innerHTML = summary;
     });
   </script>
 </body>
