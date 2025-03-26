@@ -16,40 +16,57 @@
     <section id="confirmationSection">
         <h2>Terima Kasih Atas Kepercayaan Anda!</h2>        
         <div id="summaryContainer"></div>
+        
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
             const summaryContainer = document.getElementById('summaryContainer');
-            const summaryData = JSON.parse(localStorage.getItem('summaryData'));
 
             // Create a summary table for each donation type
-            for (const type in summaryData) {
-                const data = summaryData[type];
+            const donationTypes = ['fitrah', 'maal', 'fidyah', 'infak'];
+            donationTypes.forEach(type => {
+                const name = urlParams.get(`nama${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                const amount = urlParams.get(`jumlah${type.charAt(0).toUpperCase() + type.slice(1)}`);
                 const table = document.createElement('table');
                 table.border = "1";
                 table.cellPadding = "10";
                 table.cellSpacing = "0";
+                let hasData = false;
 
-                const headerRow = table.insertRow();
-                const headerCell = document.createElement('th');
-                headerCell.colSpan = 2;
-                headerCell.textContent = `Rincian ${type}`;
-                headerRow.appendChild(headerCell);
+                if (name || amount) {
+                    hasData = true;
+                    const headerRow = table.insertRow();
+                    const headerCell = document.createElement('th');
+                    headerCell.colSpan = 2;
+                    headerCell.textContent = `Rincian ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                    headerRow.appendChild(headerCell);
+                }
 
-                for (const key in data) {
+                if (name) {
                     const row = table.insertRow();
                     const cell1 = row.insertCell(0);
                     const cell2 = row.insertCell(1);
-                    cell1.textContent = key;
-                    cell2.textContent = data[key];
+                    cell1.textContent = 'Nama';
+                    cell2.textContent = name;
                 }
 
-                summaryContainer.appendChild(table);
-            }
+                if (amount) {
+                    const row = table.insertRow();
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    cell1.textContent = 'Jumlah';
+                    cell2.textContent = amount;
+                }
+
+                if (hasData) {
+                    summaryContainer.appendChild(table);
+                }
+            });
 
             // Display payment method
-            const paymentMethod = localStorage.getItem('paymentMethod');
+            const paymentMethod = urlParams.get('paymentMethod');
             if (paymentMethod) {
                 const paymentTable = document.createElement('table');
                 paymentTable.border = "1";
