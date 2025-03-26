@@ -177,87 +177,36 @@
       
       // Form submission: send data to Google Apps Script
 document.getElementById('donationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    let summaryData = {};
+  e.preventDefault();
+  const formData = new FormData(this);
+  let summaryData = {};
 
-    // Collecting data for summary
-    if (document.querySelector('.toggle-button[data-type="fitrah"]').classList.contains('active')) {
-        const jumlahJiwa = formData.get('jumlahJiwa') || '';
-        const fitrahNames = [];
-        for (let i = 1; i <= jumlahJiwa; i++) {
-            const name = formData.get('namaFitrah_' + i) || '';
-            if (name) fitrahNames.push(name);
-        }
-        summaryData['Zakat Fitrah'] = {
-            'Jumlah Jiwa': jumlahJiwa,
-            'Nama': fitrahNames.join(', '),
-            'Total': (jumlahJiwa * 10) + '€'
-        };
+  // Collect data for summary
+  formData.forEach((value, key) => {
+    if (value) { // Only include non-empty fields
+      summaryData[key] = value;
     }
+  });
 
-    if (document.querySelector('.toggle-button[data-type="maal"]').classList.contains('active')) {
-        const namaMaal = formData.get('namaMaal') || '';
-        const jumlahMaal = formData.get('jumlahMaal') || '';
-        if (namaMaal && jumlahMaal) {
-            summaryData['Zakat Maal'] = {
-                'Nama': namaMaal,
-                'Jumlah': jumlahMaal + '€',
-                'Total': jumlahMaal + '€'
-            };
-        }
-    }
-
-    if (document.querySelector('.toggle-button[data-type="fidyah"]').classList.contains('active')) {
-        const namaFidyah = formData.get('namaFidyah') || '';
-        const jumlahHari = formData.get('jumlahHari') || '';
-        if (namaFidyah && jumlahHari) {
-            summaryData['Fidyah'] = {
-                'Nama': namaFidyah,
-                'Jumlah Hari': jumlahHari,
-                'Total': (jumlahHari * 3) + '€'
-            };
-        }
-    }
-
-    if (document.querySelector('.toggle-button[data-type="infak"]').classList.contains('active')) {
-        const namaInfak = formData.get('namaInfak') || '';
-        const jumlahInfak = formData.get('jumlahInfak') || '';
-        if (namaInfak && jumlahInfak) {
-            summaryData['Infak'] = {
-                'Nama': namaInfak,
-                'Jumlah': jumlahInfak + '€',
-                'Total': jumlahInfak + '€'
-            };
-        }
-    }
-
-    // Get payment method
-    let paymentMethod = '';
-    const paymentButtons = document.querySelectorAll('.payment-button');
-    paymentButtons.forEach(btn => {
-        if (btn.classList.contains('active')) {
-            paymentMethod = btn.getAttribute('data-method');
-        }
-    });
-
-    // Append payment method to summary
-    summaryData['Payment Method'] = paymentMethod;
-
-    // Send data to Google Sheets (if applicable)
+  // Send data to Google Sheets
   fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
     method: 'POST',
     body: formData
   })
-    .then(response => response.text())
-    .then(result => {
-        // Redirect to confirmation page with summary data
-        window.location.href = 'confirmation.html?' + new URLSearchParams({ summary: JSON.stringify(summaryData) });
-    })
-    .catch(error => {
-        alert('Terjadi kesalahan: ' + error.message);
-    });
+  .then(response => response.text())
+  .then(result => {
+    // Redirect to confirmation page with summary data
+    const summaryString = encodeURIComponent(JSON.stringify(summaryData));
+    window.location.href = 'confirmation.html?summary=' + summaryString;
+  })
+  .catch(error => {
+    alert('Terjadi kesalahan: ' + error.message);
+  });
 });
+
+
+
+    });
     
     // Fetch random images for the gallery
     document.addEventListener('DOMContentLoaded', function() {
