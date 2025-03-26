@@ -181,65 +181,82 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
     const formData = new FormData(this);
     let summaryData = {};
 
-    // Collect data for summary
-    summaryData.email = formData.get('email');
-    summaryData.asalKota = formData.get('asalKota');
-    summaryData.paymentMethod = '';
-
-    // Check for active donation types and collect their data
+    // Collecting data for summary
     if (document.querySelector('.toggle-button[data-type="fitrah"]').classList.contains('active')) {
-        summaryData.fitrah = {
-            jumlahJiwa: formData.get('jumlahJiwa'),
-            names: []
-        };
-        for (let i = 1; i <= summaryData.fitrah.jumlahJiwa; i++) {
-            const name = formData.get(`namaFitrah_${i}`);
-            if (name) {
-                summaryData.fitrah.names.push(name);
-            }
+        const jumlahJiwa = formData.get('jumlahJiwa') || '';
+        const fitrahNames = [];
+        for (let i = 1; i <= jumlahJiwa; i++) {
+            const name = formData.get('namaFitrah_' + i) || '';
+            if (name) fitrahNames.push(name);
         }
+        summaryData['Zakat Fitrah'] = {
+            'Jumlah Jiwa': jumlahJiwa,
+            'Nama': fitrahNames.join(', '),
+            'Total': (jumlahJiwa * 10) + '€'
+        };
     }
 
     if (document.querySelector('.toggle-button[data-type="maal"]').classList.contains('active')) {
-        summaryData.maal = {
-            namaMaal: formData.get('namaMaal'),
-            jumlahMaal: formData.get('jumlahMaal')
-        };
+        const namaMaal = formData.get('namaMaal') || '';
+        const jumlahMaal = formData.get('jumlahMaal') || '';
+        if (namaMaal && jumlahMaal) {
+            summaryData['Zakat Maal'] = {
+                'Nama': namaMaal,
+                'Jumlah': jumlahMaal + '€',
+                'Total': jumlahMaal + '€'
+            };
+        }
     }
 
     if (document.querySelector('.toggle-button[data-type="fidyah"]').classList.contains('active')) {
-        summaryData.fidyah = {
-            namaFidyah: formData.get('namaFidyah'),
-            jumlahHari: formData.get('jumlahHari')
-        };
+        const namaFidyah = formData.get('namaFidyah') || '';
+        const jumlahHari = formData.get('jumlahHari') || '';
+        if (namaFidyah && jumlahHari) {
+            summaryData['Fidyah'] = {
+                'Nama': namaFidyah,
+                'Jumlah Hari': jumlahHari,
+                'Total': (jumlahHari * 3) + '€'
+            };
+        }
     }
 
     if (document.querySelector('.toggle-button[data-type="infak"]').classList.contains('active')) {
-        summaryData.infak = {
-            namaInfak: formData.get('namaInfak'),
-            jumlahInfak: formData.get('jumlahInfak')
-        };
+        const namaInfak = formData.get('namaInfak') || '';
+        const jumlahInfak = formData.get('jumlahInfak') || '';
+        if (namaInfak && jumlahInfak) {
+            summaryData['Infak'] = {
+                'Nama': namaInfak,
+                'Jumlah': jumlahInfak + '€',
+                'Total': jumlahInfak + '€'
+            };
+        }
     }
 
-    // Determine active payment method
+    // Get payment method
+    let paymentMethod = '';
     const paymentButtons = document.querySelectorAll('.payment-button');
     paymentButtons.forEach(btn => {
         if (btn.classList.contains('active')) {
-            summaryData.paymentMethod = btn.getAttribute('data-method');
+            paymentMethod = btn.getAttribute('data-method');
         }
     });
 
-    // Send data to Google Sheets (assuming you have a function for this)
-    // sendDataToGoogleSheets(formData);
-      fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
+    // Append payment method to summary
+    summaryData['Payment Method'] = paymentMethod;
+
+    // Send data to Google Sheets (if applicable)
+  fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
     method: 'POST',
     body: formData
   })
-
-    // Redirect to confirmation page with summary data
-    window.location.href = 'confirmation.html?' + new URLSearchParams(summaryData).toString();
-});
-
+    .then(response => response.text())
+    .then(result => {
+        // Redirect to confirmation page with summary data
+        window.location.href = 'confirmation.html?' + new URLSearchParams({ summary: JSON.stringify(summaryData) });
+    })
+    .catch(error => {
+        alert('Terjadi kesalahan: ' + error.message);
+    });
 });
 
 
