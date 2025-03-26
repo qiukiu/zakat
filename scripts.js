@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
             body: formData
         });
     });
+});
         document.addEventListener('DOMContentLoaded', function() {
       fetch('https://script.google.com/macros/s/AKfycbweRwKHsxyhAGD1h6aHa8R58UK1vaEWSSm7HgkXx8VrssfNZoM6GYXRmovW87KX97Yu/exec')
       .then(response => response.json())
@@ -226,5 +227,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       })
       .catch(error => console.error('Error fetching images:', error));
-    });
 });
