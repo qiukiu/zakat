@@ -67,6 +67,36 @@
                 }
             });
 
+            // Display Zakat Fitrah Names
+            const jumlahJiwa = urlParams.get('jumlahJiwa');
+            const fitrahNames = [];
+            for (let i = 1; i <= jumlahJiwa; i++) {
+                const fitrahName = urlParams.get(`namaFitrah_${i}`);
+                if (fitrahName) {
+                    fitrahNames.push(fitrahName);
+                }
+            }
+            if (fitrahNames.length > 0) {
+                const fitrahTable = document.createElement('table');
+                fitrahTable.border = "1";
+                fitrahTable.cellPadding = "10";
+                fitrahTable.cellSpacing = "0";
+                const headerRow = fitrahTable.insertRow();
+                const headerCell = document.createElement('th');
+                headerCell.colSpan = 2;
+                headerCell.textContent = 'Rincian Zakat Fitrah';
+                headerRow.appendChild(headerCell);
+                summaryContainer.appendChild(fitrahTable);
+
+                fitrahNames.forEach(name => {
+                    const row = fitrahTable.insertRow();
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    cell1.textContent = 'Nama';
+                    cell2.textContent = name;
+                });
+            }
+
             // Display payment method
             const paymentMethod = urlParams.get('paymentMethod');
             if (paymentMethod) {
