@@ -1,3 +1,4 @@
+<sript>
     document.addEventListener('DOMContentLoaded', function() {
       // Toggle donation type buttons
       const toggleButtons = document.querySelectorAll('.toggle-button');
@@ -258,3 +259,4 @@
       
       document.body.removeChild(textarea);
     }
+</script>
