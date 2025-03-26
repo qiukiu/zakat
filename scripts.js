@@ -213,4 +213,18 @@ document.addEventListener('DOMContentLoaded', function() {
             body: formData
         });
     });
+        document.addEventListener('DOMContentLoaded', function() {
+      fetch('https://script.google.com/macros/s/AKfycbweRwKHsxyhAGD1h6aHa8R58UK1vaEWSSm7HgkXx8VrssfNZoM6GYXRmovW87KX97Yu/exec')
+      .then(response => response.json())
+      .then(data => {
+        var container = document.getElementById('randomImages');
+        data.forEach(function(image) {
+          var img = document.createElement('img');
+          img.src = image.url;
+          img.alt = "Random Image";
+          container.appendChild(img);
+        });
+      })
+      .catch(error => console.error('Error fetching images:', error));
+    });
 });
