@@ -21,10 +21,10 @@
         }
         /* Set consistent widths for columns */
         .col-1 {
-            width: 50%; /* First column width */
+            width: 25%; /* First column width */
         }
         .col-2 {
-            width: 50%; /* Second column width */
+            width: 70%; /* Second column width */
         }
     </style>
 </head>
@@ -94,6 +94,16 @@
                         cell2.className = 'col-2';
                         cell1.textContent = 'Nama';
                         cell2.textContent = name;
+                    }
+                }
+                if (type === 'fidyah') {
+                    const jumlahHari = urlParams.get('jumlahHari'); // Capture jumlahHari for Fidyah
+                    if (jumlahHari) {
+                        const row = table.insertRow();
+                        const cell1 = row.insertCell(0);
+                        const cell2 = row.insertCell(1);
+                        cell1.textContent = 'Jumlah Hari';
+                        cell2.textContent = jumlahHari;
                     }
                 }
 
