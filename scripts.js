@@ -177,31 +177,25 @@
       
       // Form submission: send data to Google Apps Script
 document.getElementById('donationForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  let summaryData = {};
+    e.preventDefault();
+    const formData = new FormData(this);
+    const summaryData = {};
 
-  // Collect data for summary
-  formData.forEach((value, key) => {
-    if (value) { // Only include non-empty fields
-      summaryData[key] = value;
-    }
-  });
+    // Collect data from the form
+    formData.forEach((value, key) => {
+        if (key !== 'niat' && key !== 'transferConfirmation' && key !== 'acknowledge') {
+            summaryData[key] = value;
+        }
+    });
 
-  // Send data to Google Sheets
-  fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
+    // Redirect to confirmation page with summary data
+    const queryString = new URLSearchParams(summaryData).toString();
+    window.location.href = 'confirmation.html?' + queryString;
+
+    fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
     method: 'POST',
     body: formData
   })
-  .then(response => response.text())
-  .then(result => {
-    // Redirect to confirmation page with summary data
-    const summaryString = encodeURIComponent(JSON.stringify(summaryData));
-    window.location.href = 'confirmation.html?summary=' + summaryString;
-  })
-  .catch(error => {
-    alert('Terjadi kesalahan: ' + error.message);
-  });
 });
 
 
