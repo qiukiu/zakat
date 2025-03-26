@@ -40,6 +40,23 @@
         <h3>Input data berhasil.</h3>
         <p>ظَهَرَ اللهُ قَلْبَكَ فِي قُلُوبِ الأَبْرَارِ وَزَكَّى عَمَلَكَ فِي عَمَلِ الأَخْيَارِ وَصَلَّى عَلَى رُوحِكَ فِي أَرْوَاحِ الشُّهَدَاءِ</p>
         <p>“Semoga Allah menyucikan hatimu pada hati para hamba-Nya yang abrar. Semoga Allah bersihkan amalmu pada amal para hamba-Nya yang akhyar. Semoga Allah bershalawat untuk rohmu pada roh para hamba-Nya yang syahid.”</p>
+
+        <!-- Table for Email and Asal Kota -->
+        <table>
+            <tr>
+                <th class="col-1">Email</th>
+                <td class="col-2" id="emailDisplay"></td>
+            </tr>
+            <tr>
+                <th class="col-1">Asal Kota</th>
+                <td class="col-2" id="kotaDisplay"></td>
+            </tr>
+            <tr>
+                <th class="col-1">Total yang Dibayarkan</th>
+                <td class="col-2" id="totalDisplay"></td>
+            </tr>
+        </table>
+
         <div id="summaryContainer"></div>
     </section>
 
@@ -47,6 +64,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const summaryContainer = document.getElementById('summaryContainer');
+
+            // Display Email and Asal Kota
+            document.getElementById('emailDisplay').textContent = urlParams.get('email') || 'N/A';
+            document.getElementById('kotaDisplay').textContent = urlParams.get('asalKota') || 'N/A';
+            document.getElementById('totalDisplay').textContent = urlParams.get('totalAmount') + '€' || '0€';
 
             // Create a summary table for each donation type
             const donationTypes = ['fitrah', 'maal', 'fidyah', 'infak'];
