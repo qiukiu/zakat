@@ -179,32 +179,31 @@
 document.getElementById('donationForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const formData = new FormData(this);
+  let summaryData = {};
 
-  // Determine active payment method
-  let paymentMethod = '';
-  paymentButtons.forEach(btn => {
-    if (btn.classList.contains('active')) {
-      paymentMethod = btn.getAttribute('data-method');
+  // Collect data for summary
+  formData.forEach((value, key) => {
+    if (value) { // Only include non-empty fields
+      summaryData[key] = value;
     }
   });
-  formData.append('paymentMethod', paymentMethod);
 
-  // Convert form data to a query string
-  const queryString = new URLSearchParams(formData).toString();
-
+  // Send data to Google Sheets
   fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
     method: 'POST',
     body: formData
   })
   .then(response => response.text())
   .then(result => {
-    // Redirect to confirmation page with data
-    window.location.href = 'confirmation.html?' + queryString;
+    // Redirect to confirmation page with summary data
+    const summaryString = encodeURIComponent(JSON.stringify(summaryData));
+    window.location.href = 'confirmation.html?summary=' + summaryString;
   })
   .catch(error => {
     alert('Terjadi kesalahan: ' + error.message);
   });
 });
+
 
 
     });
