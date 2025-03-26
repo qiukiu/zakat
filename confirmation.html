@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
+  <title>Konfirmasi Donasi Zakat KMIB 1446H / 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="header-container">
+    <img src="Logokmib.png" alt="KMIB" class="logo">
+    <h1>Konfirmasi Donasi Zakat KMIB 1446H / 2025</h1>
+    <img src="Logoppa.png" alt="ppa" class="logo">
+  </div>
+
+  <section id="confirmationSection">
+    <h2>Terima Kasih Atas Donasi Anda!</h2>
+    <p>Kami telah menerima donasi Anda dengan rincian sebagai berikut:</p>
+    <p id="confirmationText"></p>
+    <p>Silakan simpan halaman ini sebagai bukti donasi Anda.</p>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const result = urlParams.get('result');
+      document.getElementById('confirmationText').textContent = 'Detail Donasi: ' + decodeURIComponent(result);
+    });
+  </script>
+</body>
+</html>
