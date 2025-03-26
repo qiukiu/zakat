@@ -14,24 +14,128 @@
   </div>
 
   <section id="confirmationSection">
-    <h2>Terima Kasih Atas Kepercayaan Anda!</h2>
+    <h2>Terima Kasih Kepercayaan Anda!</h2>
     <p>Kami telah menerima donasi Anda dengan rincian sebagai berikut:</p>
-    <div id="summaryContainer"></div>
-    <p>Silakan simpan halaman ini sebagai bukti donasi Anda.</p>
+
+    <div id="summaryTables"></div>
   </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const urlParams = new URLSearchParams(window.location.search);
-      const summary = JSON.parse(decodeURIComponent(urlParams.get('summary')));
-      const summaryContainer = document.getElementById('summaryContainer');
+      const summaryData = {
+        email: urlParams.get('email'),
+        asalKota: urlParams.get('asalKota'),
+        paymentMethod: urlParams.get('paymentMethod'),
+        fitrah: {
+          jumlahJiwa: urlParams.get('fitrah[jumlahJiwa]'),
+          names: []
+        },
+        maal: {
+          namaMaal: urlParams.get('maal[namaMaal]'),
+          jumlahMaal: urlParams.get('maal[jumlahMaal]')
+        },
+        fidyah: {
+          namaFidyah: urlParams.get('fidyah[namaFidyah]'),
+          jumlahHari: urlParams.get('fidyah[jumlahHari]')
+        },
+        infak: {
+          namaInfak: urlParams.get('infak[namaInfak]'),
+          jumlahInfak: urlParams.get('infak[jumlahInfak]')
+        }
+      };
 
-      // Create a summary display
-      for (const [key, value] of Object.entries(summary)) {
-        const summaryItem = document.createElement('p');
-        summaryItem.textContent = `${key.replace(/([A-Z])/g, ' $1')}: ${value}`; // Format key to be more readable
-        summaryContainer.appendChild(summaryItem);
+      // Create summary tables
+      const summaryTables = [];
+
+      // Zakat Fitrah
+      if (summaryData.fitrah.jumlahJiwa > 0) {
+        const fitrahTable = `
+          <h3>Zakat Fitrah</h3>
+          <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+              <th>Jumlah Jiwa</th>
+              <th>Nama</th>
+            </tr>
+            <tr>
+              <td>${summaryData.fitrah.jumlahJiwa}</td>
+              <td>${summaryData.fitrah.names.join(', ')}</td>
+            </tr>
+          </table>
+        `;
+        summaryTables.push(fitrahTable);
       }
+
+      // Zakat Maal
+      if (summaryData.maal.namaMaal && summaryData.maal.jumlahMaal) {
+        const maalTable = `
+          <h3>Zakat Maal</h3>
+          <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+              <th>Nama</th>
+              <th>Jumlah</th>
+            </tr>
+            <tr>
+              <td>${summaryData.maal.namaMaal}</td>
+              <td>${summaryData.maal.jumlahMaal}€</td>
+            </tr>
+          </table>
+        `;
+        summaryTables.push(maalTable);
+      }
+
+      // Fidyah
+      if (summaryData.fidyah.namaFidyah && summaryData.fidyah.jumlahHari) {
+        const fidyahTable = `
+          <h3>Fidyah</h3>
+          <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+              <th>Nama</th>
+              <th>Jumlah Hari</th>
+            </tr>
+            <tr>
+              <td>${summaryData.fidyah.namaFidyah}</td>
+              <td>${summaryData.fidyah.jumlahHari} hari</td>
+            </tr>
+          </table>
+        `;
+        summaryTables.push(fidyahTable);
+      }
+
+      // Infak
+      if (summaryData.infak.namaInfak && summaryData.infak.jumlahInfak) {
+        const infakTable = `
+          <h3>Infak</h3>
+          <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+              <th>Nama</th>
+              <th>Jumlah</th>
+            </tr>
+            <tr>
+              <td>${summaryData.infak.namaInfak}</td>
+              <td>${summaryData.infak.jumlahInfak}€</td>
+            </tr>
+          </table>
+        `;
+        summaryTables.push(infakTable);
+      }
+
+      // Payment Method
+      const paymentMethodTable = `
+        <h3>Metode Pembayaran</h3>
+        <table border="1" cellpadding="10" cellspacing="0">
+          <tr>
+            <th>Metode</th>
+          </tr>
+          <tr>
+            <td>${summaryData.paymentMethod}</td>
+          </tr>
+        </table>
+      `;
+      summaryTables.push(paymentMethodTable);
+
+      // Display all tables
+      document.getElementById('summaryTables').innerHTML = summaryTables.join('');
     });
   </script>
 </body>
