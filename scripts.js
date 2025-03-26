@@ -176,38 +176,33 @@
       }
       
       // Form submission: send data to Google Apps Script
-      document.getElementById('donationForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        
-        // Determine active payment method
-        let paymentMethod = '';
-        paymentButtons.forEach(btn => {
-          if (btn.classList.contains('active')) {
-            paymentMethod = btn.getAttribute('data-method');
-          }
-        });
-        formData.append('paymentMethod', paymentMethod);
-        
-        fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.text())
-        .then(result => {
-          alert('Data terkirim: ' + result);
-          // Reset form and hide dynamic sections
-          document.getElementById('donationForm').reset();
-          document.querySelectorAll('.donation-section').forEach(section => section.style.display = 'none');
-          toggleButtons.forEach(btn => btn.classList.remove('active'));
-          paymentButtons.forEach(btn => btn.classList.remove('active'));
-          paymentEvidenceSection.innerHTML = '';
-          updateSummary();
-        })
-        .catch(error => {
-          alert('Terjadi kesalahan: ' + error.message);
-        });
-      });
+document.getElementById('donationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+
+  // Determine active payment method
+  let paymentMethod = '';
+  paymentButtons.forEach(btn => {
+    if (btn.classList.contains('active')) {
+      paymentMethod = btn.getAttribute('data-method');
+    }
+  });
+  formData.append('paymentMethod', paymentMethod);
+
+  fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(result => {
+    // Redirect to confirmation page
+    window.location.href = 'confirmation.html?result=' + encodeURIComponent(result);
+  })
+  .catch(error => {
+    alert('Terjadi kesalahan: ' + error.message);
+  });
+});
+
     });
     
     // Fetch random images for the gallery
