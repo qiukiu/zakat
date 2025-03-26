@@ -177,63 +177,69 @@
       
       // Form submission: send data to Google Apps Script
 document.getElementById('donationForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
+    e.preventDefault();
+    const formData = new FormData(this);
+    let summaryData = {};
 
-  // Determine active payment method
-  let paymentMethod = '';
-  paymentButtons.forEach(btn => {
-    if (btn.classList.contains('active')) {
-      paymentMethod = btn.getAttribute('data-method');
+    // Collect data for summary
+    summaryData.email = formData.get('email');
+    summaryData.asalKota = formData.get('asalKota');
+    summaryData.paymentMethod = '';
+
+    // Check for active donation types and collect their data
+    if (document.querySelector('.toggle-button[data-type="fitrah"]').classList.contains('active')) {
+        summaryData.fitrah = {
+            jumlahJiwa: formData.get('jumlahJiwa'),
+            names: []
+        };
+        for (let i = 1; i <= summaryData.fitrah.jumlahJiwa; i++) {
+            const name = formData.get(`namaFitrah_${i}`);
+            if (name) {
+                summaryData.fitrah.names.push(name);
+            }
+        }
     }
-  });
-  formData.append('paymentMethod', paymentMethod);
 
-  // Send data to Google Sheets
-  fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
+    if (document.querySelector('.toggle-button[data-type="maal"]').classList.contains('active')) {
+        summaryData.maal = {
+            namaMaal: formData.get('namaMaal'),
+            jumlahMaal: formData.get('jumlahMaal')
+        };
+    }
+
+    if (document.querySelector('.toggle-button[data-type="fidyah"]').classList.contains('active')) {
+        summaryData.fidyah = {
+            namaFidyah: formData.get('namaFidyah'),
+            jumlahHari: formData.get('jumlahHari')
+        };
+    }
+
+    if (document.querySelector('.toggle-button[data-type="infak"]').classList.contains('active')) {
+        summaryData.infak = {
+            namaInfak: formData.get('namaInfak'),
+            jumlahInfak: formData.get('jumlahInfak')
+        };
+    }
+
+    // Determine active payment method
+    const paymentButtons = document.querySelectorAll('.payment-button');
+    paymentButtons.forEach(btn => {
+        if (btn.classList.contains('active')) {
+            summaryData.paymentMethod = btn.getAttribute('data-method');
+        }
+    });
+
+    // Send data to Google Sheets (assuming you have a function for this)
+    // sendDataToGoogleSheets(formData);
+      fetch('https://script.google.com/macros/s/AKfycbyWYqd7kej26OReycEEyBsI6gQ-qSezazaA05rZNOWVy_fbaaLckfUbz-0WGNmq7SAL/exec', {
     method: 'POST',
     body: formData
   })
-  .then(response => response.text())
-  .then(result => {
-    // Redirect to confirmation page with formatted data
-    const summaryData = {
-      email: formData.get('email'),
-      asalKota: formData.get('asalKota'),
-      paymentMethod: paymentMethod,
-      fitrah: {
-        jumlahJiwa: formData.get('jumlahJiwa'),
-        names: []
-      },
-      maal: {
-        namaMaal: formData.get('namaMaal'),
-        jumlahMaal: formData.get('jumlahMaal')
-      },
-      fidyah: {
-        namaFidyah: formData.get('namaFidyah'),
-        jumlahHari: formData.get('jumlahHari')
-      },
-      infak: {
-        namaInfak: formData.get('namaInfak'),
-        jumlahInfak: formData.get('jumlahInfak')
-      }
-    };
-
-    // Collect names for Zakat Fitrah
-    const fitrahCount = parseInt(formData.get('jumlahJiwa')) || 0;
-    for (let i = 1; i <= fitrahCount; i++) {
-      const name = formData.get(`namaFitrah_${i}`);
-      if (name) {
-        summaryData.fitrah.names.push(name);
-      }
-    }
 
     // Redirect to confirmation page with summary data
     window.location.href = 'confirmation.html?' + new URLSearchParams(summaryData).toString();
-  })
-  .catch(error => {
-    alert('Terjadi kesalahan: ' + error.message);
-  });
+});
+
 });
 
 
