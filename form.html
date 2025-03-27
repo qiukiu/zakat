@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
+  <title>Form Zakat KMIB 1446H / 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header with two logos and centered title -->
+  <div class="header-container">
+    <img src="Logokmib.png" alt="KMIB" class="logo">
+    <h1>Form Zakat KMIB 1446H / 2025</h1>
+    <img src="Logoppa.png" alt="ppa" class="logo">
+  </div>
+  
+  <form id="donationForm" enctype="multipart/form-data">
+    <!-- Personal Information -->
+    <section id="personalInfo">
+      <div class="form-container">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-container">
+        <label for="asalKota">Asal Kota:</label>
+        <input type="text" id="asalKota" name="asalKota" required>
+      </div>
+    </section>
+    
+    <!-- Donation Type Selection -->
+    <section id="donationTypeSelection">
+      <h2>Pilih Jenis Donasi</h2>
+      <p>Silahkan pilih satu atau lebih</p>
+      <div class="toggle-buttons">
+        <button type="button" class="toggle-button" data-type="fitrah">Zakat Fitrah</button>
+        <button type="button" class="toggle-button" data-type="maal">Zakat Maal</button>
+        <button type="button" class="toggle-button" data-type="fidyah">Fidyah</button>
+        <button type="button" class="toggle-button" data-type="infak">Infak</button>
+      </div>
+    </section>
+    
+    <!-- Zakat Fitrah Section -->
+    <section id="section-fitrah" class="donation-section" style="display:none;">
+      <h3>Zakat Fitrah</h3>
+      <p>Dinamakan fitrah karena fitrah wajib setelah orang-orang berbuka dari puasa Ramadhan. Fitrah juga bisa bermakna kejadian, zakat fitrah juga bisa disebut dengan zakat badan seperti disebutkan di dalam hadis.</p>
+      <p>زكاة الفطرطهرة للصائم من الرفث وطعمة للفقراء والمساكين<a><span>[1]</span></a></p>
+      <p>Artinya : Zakat fitrah mensucikan bagi orang yang berpuasa dari kotoran/dosa, dan makanan bagi orang fakir dan miskin.</p>
+      <p>Besaran zakat fitrah adalah 2.75 kg bahan pokok, atau 3 kg untuk berjaga-jaga.</p>
+      <p>Besaran zakat fitrah dalam Euro mengacu pada PCINU jerman yakni 10€. </p>
+      <div class="form-container">
+      <label for="jumlahJiwa">Jumlah Jiwa:</label>
+      <input type="number" id="jumlahJiwa" name="jumlahJiwa" min="1">
+      </div>
+      <p>Zakat Fitrah: 10€ per jiwa</p>
+      <div id="fitrahNames"></div>
+      <h4>Niat Zakat fitrah untuk diri sendiri (dan keluarga)</h4>
+      <div class="arabig">
+        نَوَيْتُ أَنْ أُخْرِجَ زَكَاةَ الفِطْرِ عَنِّي (وَعَنْ جَمِيعِ مَا يَلْزَمُنِي نَفَقَتُهُمْ شَرْعًا) فَرْضًا لِلَّهِ تَعَالَى
+      </div>
+      <p>Nawaytu An Ukhrija Zakaata Al-fitri Anni (Wa An Jami’i Ma Yalzimuniy Nafaqatuhum Syar’an) Fardhan Lillahi Ta’ala</p>
+      <p>"Aku Niat Mengeluarkan Zakat Fitrah Untuk Diriku (Dan Seluruh Orang Yang Nafkahnya Menjadi Tanggunganku) Fardhu Karena Allah Taala." </p>
+      <input type="checkbox" id="niat" name="niat">
+      <label for="niat">Saya telah membaca niat.</label>
+    </section>
+    
+    <!-- Zakat Maal Section -->
+    <section id="section-maal" class="donation-section" style="display:none;">
+      <h3>Zakat Maal</h3>
+      <p>Maal berasal dari kata bahasa Arab artinya harta atau kekayaan. Menurut Islam, harta merupakan sesuatu yang boleh dimiliki dan digunakan sesuai kebutuhan. Zakat maal dikenakan atas berbagai jenis harta dan perhitungannya dilakukan oleh muzakki sendiri.</p>
+      <a href="https://www.hasene.org/de/zakat-rechner/" target="_blank" >https://www.hasene.org/de/zakat-rechner/</a>
+      <div>
+      <div class="form-container">
+      <label for="namaMaal">Nama:</label>
+      <input type="text" id="namaMaal" name="namaMaal">
+      </div>
+      <div class="form-container">
+      <label for="jumlahMaal">Jumlah:</label>
+      <input type="number" id="jumlahMaal" name="jumlahMaal" min="0">
+      </div>
+      </div>
+    </section>
+    
+    <!-- Fidyah Section -->
+    <section id="section-fidyah" class="donation-section" style="display:none;">
+      <h3>Fidyah</h3>
+      <p>الفدية هي مدواحد لكل يوم من غالب قوت البلد...</p>
+      <p>Dikeluarkan 1 mud setiap harinya berupa bahan makanan pokok. Atau sama dengan 0,68 Kg (2.75 kg/4 mud).</p>
+      <p>Besaran fidyah dalam Euro mengacu pada PCINU jerman yakni 3€. </p>
+      <div class="form-container">
+      <label for="namaFidyah">Nama:</label>
+      <input type="text" id="namaFidyah" name="namaFidyah">
+      </div>
+      <div class="form-container">
+      <label for="jumlahHari">Jumlah Hari:</label>
+      <input type="number" id="jumlahHari" name="jumlahHari" min="0">
+      </div>
+      <p>Fidyah: 3€ per hari</p>
+    </section>
+    
+    <!-- Infak Section -->
+    <section id="section-infak" class="donation-section" style="display:none;">
+      <h3>Infak</h3>
+      <p>Sumbangan sukarela diniatkan sesuai hajatnya</p>
+      <div class="form-container">
+      <label for="namaInfak">Nama:</label>
+      <input type="text" id="namaInfak" name="namaInfak">
+      </div>
+      <div class="form-container">
+      <label for="jumlahInfak">Jumlah Infak:</label>
+      <input type="number" id="jumlahInfak" name="jumlahInfak" min="0">
+      </div>
+    </section>
+    
+    <!-- Summary Section -->
+    <section id="summarySection">
+      <h2>Total yang dibayarkan</h2>
+      <p id="summaryText">Total: 0€</p>
+    </section>
+    
+    <!-- Payment Options Section -->
+    <section id="paymentOptions">
+      <h2>Pilih Metode Pembayaran</h2>
+      <div class="toggle-buttons">
+        <button type="button" class="payment-button" data-method="IBAN transfer">IBAN Transfer</button>
+        <button type="button" class="payment-button" data-method="Paypal friends and familly">Paypal</button>
+        <button type="button" class="payment-button" data-method="Cash">Cash</button>
+      </div>
+      <!-- Payment Evidence Section will be inserted here dynamically -->
+      <div id="paymentEvidenceSection" style="margin-top:10px;"></div>
+    </section>
+    
+    <!-- Instructions Section -->
+    <section id="instructionSection">
+      <h2>Instruksi</h2>
+      <p>Silahkan baca instruksi pembayaran sesuai dengan metode yang dipilih. Pastikan sudah membaca niat sebelum melaukan transaksi. Tombol submit mungkin akan terasa lambat respon, mohon klik/tap satu kali lalu tunggu sejenak. Konfirmasi input data dapat menghubungi <a href="https://wa.me/+4917687979479/" target="_blank">Rifqi +49 176 87979 479 (WA) </a></p>
+      <input type="checkbox" id="acknowledge" name="acknowledge" required>
+      <label for="acknowledge">Saya telah memasukkan data dengan benar dan memahami instruksi diatas</label>
+    </section>
+    
+    <!-- Submit Section -->
+    <section id="submitSection">
+      <button type="submit">Submit</button>
+    </section>
+  </form>
+  
+  <!-- Random Gallery Section -->
+  <section id="randomGallery">
+    <h3>Dokumentasi Zakat Fitrah 1445H / 2024</h3>
+    <div id="randomImages" class="collage-grid"></div>
+  </section>
+  
+<script src="scripts.js"></script>
+</body>
+</html>
