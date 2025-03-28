@@ -106,8 +106,7 @@
             color: #333; /* Text color */
         }
         .redirect-button {
-            Justify-content: center;
-            display: none; /* Hidden by default */
+            display: flex;; /* Hidden by default */
             margin-top: 20px;
             padding: 10px 20px;
             background-color: #f44336; /* Red color */
@@ -116,6 +115,10 @@
             cursor: pointer;
             font-size: 1.2em;
             border-radius: 4px; /* Rounded corners */
+        }
+        .redirectButtonArea{
+            display: flex;
+            justify-content: center
         }
     </style>
 </head>
@@ -127,7 +130,7 @@
     </div>
 
     <section id="retrieveSection">
-        <h3>Masukkan email anda untuk check data</h3>
+        <h3>Masukkan email anda untuk check data atau isi formulir</h3>
         <br>
         <form id="retrieveForm">
             <input type="email" id="email" name="email" placeholder="Masukkan email" required>
@@ -136,7 +139,9 @@
         <div class="spinner" id="spinner"></div> <!-- Spinner element -->
         <div class="loading-text" id="loadingText">Harap tunggu...</div> <!-- Loading text -->
         <div id="summaryContainer"></div>
+        <div class="redirectButtonArea" id="redirectButtonArea">
         <button class="redirect-button" id="redirectButton" onclick="window.location.href='form.html'">Isi Form</button> <!-- Redirect button -->
+      </div>
     </section>
 
     <script>
@@ -200,6 +205,8 @@
                     } else {
                         summaryContainer.textContent = 'Data tidak ditemukan untuk email ini. harap isi form atau menghubungi panitia zakat.';
                         redirectButton.style.display = 'block'; // Show redirect button if email not found
+                        redirectButton.style.display = 'flex'; // Show redirect button if email not found
+
                     }
                 })
                 .catch(error => {
