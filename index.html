@@ -117,8 +117,7 @@
             border-radius: 4px; /* Rounded corners */
         }
         .redirectButtonArea{
-            display: flex;
-            justify-content: center
+            display: none;
         }
     </style>
 </head>
@@ -130,7 +129,7 @@
     </div>
 
     <section id="retrieveSection">
-        <h3>Masukkan email anda untuk check data atau isi formulir</h3>
+        <h3>Pendaftaran zakat telah ditutup. Masukkan email anda untuk check data</h3>
         <br>
         <form id="retrieveForm">
             <input type="email" id="email" name="email" placeholder="Masukkan email" required>
@@ -204,9 +203,7 @@
                         summaryContainer.appendChild(summaryTable);
                     } else {
                         summaryContainer.textContent = 'Data tidak ditemukan untuk email ini. harap isi form atau menghubungi panitia zakat.';
-                        redirectButton.style.display = 'block'; // Show redirect button if email not found
-                        redirectButton.style.display = 'flex'; // Show redirect button if email not found
-
+                        redirectButton.style.display = 'none'; // Show redirect button if email not found
                     }
                 })
                 .catch(error => {
